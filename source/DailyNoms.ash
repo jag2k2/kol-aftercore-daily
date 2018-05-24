@@ -108,7 +108,7 @@ void drink_perfect_drinks()
 			to_drink = (inebriety_limit() - my_inebriety())/3;											// Calc how many more perfect drinks we can drink today
 			if(to_drink > 0)																			// If there is room to drink 1 or more perfect drink
 			{
-				if(perfect_drink[key].amount < to_drink)												// But if there are perfect drinks of this type than we can handle
+				if(perfect_drink[key].amount < to_drink)												// But if there are less perfect drinks of this type than we can handle
 					to_drink = perfect_drink[key].amount;												// Then we are going to drink just what we have (even 0 if that is what we have)
 				drink(to_drink, key);																	// Bottoms up!
 			}
@@ -120,6 +120,63 @@ void drink_perfect_drinks()
 			print("Retrieving " + to_drink + " " + cheapest, "blue");
 			retrieve_item(to_drink, cheapest);															// Retrieve the cheapest of that many perfect drinks
 			drink(to_drink, cheapest);																	// And drink those too!
+		}
+	}
+}
+
+/*From inventory first then from mall, chew powdered gold*/
+
+void chew_spleen_item()
+{
+	if (my_spleen_use() > (spleen_limit() - 4))														
+		print("Spleen is already at " + my_spleen_use(), "blue");
+		
+	else
+	{
+		record spleen_deets{
+			int price;
+			int amount;
+		};
+		
+		spleen_deets [item] spleen_item;
+		spleen_item[$item[grim fairy tale]].price = mall_price($item[grim fairy tale]);
+		spleen_item[$item[grim fairy tale]].amount = item_amount($item[grim fairy tale]);
+		spleen_item[$item[groose grease]].price = mall_price($item[groose grease]);
+		spleen_item[$item[groose grease]].amount = item_amount($item[groose grease]);
+		spleen_item[$item[powdered gold]].price = mall_price($item[powdered gold]);
+		spleen_item[$item[powdered gold]].amount = item_amount($item[powdered gold]);
+		spleen_item[$item[Unconscious Collective Dream Jar]].price = mall_price($item[Unconscious Collective Dream Jar]);
+		spleen_item[$item[Unconscious Collective Dream Jar]].amount = item_amount($item[Unconscious Collective Dream Jar]);
+		
+		item cheapest;
+		int price = 9999999;
+		int to_chew = 0;
+		
+		foreach key in spleen_item																		// For each type of spleen item:
+		{
+			print(key + " " + spleen_item[key].price + " " + spleen_item[key].amount, "blue");
+			if(spleen_item[key].price < price) 															// See if it is the mall cheapest just in case we need to buy some
+			{
+				cheapest = key;
+				price = spleen_item[key].price;
+			}
+			
+			to_chew = (spleen_limit() - my_spleen_use())/4;												// Calc how many more spleen items we can chew today
+			if(to_chew > 0)																				// If there is room to chew 1 or more spleen item
+			{
+				if(spleen_item[key].amount < to_chew)													// But if there are less spleen items of this type than we can handle
+					to_chew = spleen_item[key].amount;													// Then we are going to chew just what we have (even 0 if that is what we have)
+				print("Attempting " + to_chew + " " + key, "blue");
+				chew(to_chew, key);																		// Lets chew!
+			}
+		}
+		
+		to_chew = (spleen_limit() - my_spleen_use())/4;													// After using from our inventory, calc how many more spleen items we can consume today
+		if(to_chew > 0)																					// If still rooom to chew 1 or more spleen items
+		{
+			print("Retrieving " + to_chew + " " + cheapest, "blue");
+			retrieve_item(to_chew, cheapest);															// Retrieve the cheapest of that many spleen items
+			chew(to_chew, cheapest);																		// And chew those too!
 		}
 	}
 }
