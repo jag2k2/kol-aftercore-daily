@@ -63,7 +63,7 @@ void eat_hi_meins()
 
 void drink_perfect_drinks()
 {
-	if (my_inebriety() > (inebriety_limit() - 3))															// inebriety_limit returns what you CAN drink without getting over-drunk (19 for instance)
+	if (my_inebriety() > (inebriety_limit() - 3))														// inebriety_limit returns what you CAN drink without getting over-drunk (19 for instance)
 		print("Inebriety is already at " + my_inebriety(), "blue");
 	else
 	{
@@ -96,10 +96,10 @@ void drink_perfect_drinks()
 		int price = 9999999;
 		int to_drink = 0;
 		
-		foreach key in perfect_drink																			// For each type of perfect drink:
+		foreach key in perfect_drink																	// For each type of perfect drink:
 		{
 			print(key + " " + perfect_drink[key].price + " " + perfect_drink[key].amount, "blue");
-			if(perfect_drink[key].price < price) 																// See if it is the mall cheapest just in case we need to buy some
+			if(perfect_drink[key].price < price) 														// See if it is the mall cheapest just in case we need to buy some
 			{
 				cheapest = key;
 				price = perfect_drink[key].price;
@@ -109,17 +109,17 @@ void drink_perfect_drinks()
 			if(to_drink > 0)																			// If there is room to drink 1 or more perfect drink
 			{
 				if(perfect_drink[key].amount < to_drink)												// But if there are perfect drinks of this type than we can handle
-						to_drink = perfect_drink[key].amount;											// Then we are going to drink just what we have (even 0 if that is what we have)
+					to_drink = perfect_drink[key].amount;												// Then we are going to drink just what we have (even 0 if that is what we have)
 				drink(to_drink, key);																	// Bottoms up!
 			}
-			
-			to_drink = (inebriety_limit() - my_inebriety())/3;											// After drinking from our inventory, calc how many more perfect drinks we can consume today
-			if(to_drink > 0)																			// If still rooom to eat 1 or more perfect drink
-			{
-				print("Retrieving " + to_drink + " " + cheapest, "blue");
-				retrieve_item(to_drink, cheapest);														// Retrieve the cheapest of that many perfect drinks
-				drink(to_drink, cheapest);																// And drink those too!
-			}
+		}
+		
+		to_drink = (inebriety_limit() - my_inebriety())/3;												// After drinking from our inventory, calc how many more perfect drinks we can consume today
+		if(to_drink > 0)																				// If still rooom to eat 1 or more perfect drink
+		{
+			print("Retrieving " + to_drink + " " + cheapest, "blue");
+			retrieve_item(to_drink, cheapest);															// Retrieve the cheapest of that many perfect drinks
+			drink(to_drink, cheapest);																	// And drink those too!
 		}
 	}
 }
