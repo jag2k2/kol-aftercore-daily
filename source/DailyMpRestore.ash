@@ -29,6 +29,21 @@ boolean use_oscus_soda()
 	return success;
 }
 
+/*Get a nun massage*/
+boolean get_nun_massage()
+{
+	boolean success = false;
+	if(get_property("nunsVisits").to_int() >= 3)
+		print("Nuns massages all used up", "blue");
+	else
+	{
+		print("Trying to get a massage", "blue");
+		cli_execute("nuns");
+		success = true;
+	}
+	return success;
+}
+
 /*Use license to chill*/
 int use_license()
 {
@@ -49,6 +64,7 @@ int use_license()
 int minor_mp_restore()
 {
 	if(!rest_in_chateau())
-		use_oscus_soda();
+		if(!use_oscus_soda())
+			get_nun_massage();
 	return 0;
 }
