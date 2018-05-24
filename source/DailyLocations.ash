@@ -326,7 +326,7 @@ int harvest_velvet_gold_mine(int mine_target, boolean ignore_free_mine_limit)
 		}
 		else
 		{
-			//print("Can't find reset button.  Mining cell 52", "blue");	
+			print("Can't find reset button.  Mining cell 52", "blue");	
 			visit_url("mining.php?mine=6&which=52&pwd="+my_hash());       	//mine cell 52     
 			times_mined = 1;
 			incFreeMineProperty();
