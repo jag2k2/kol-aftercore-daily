@@ -1,5 +1,8 @@
+import DailyMpRestore.ash
+
 /*Daily Uses and Daily Casts*/
 /*Cast Advanced Saucecrafting*/
+
 int generate_reagents()
 {
 	int old_reagent_count = item_amount($item[scrumptious reagent]);
@@ -349,5 +352,73 @@ int generate_resolutions()
 		use_skill($skill[Summon Resolutions]);
 	}
 
+	return 0;
+}
+
+/*Cast farm buffs on player*/
+int meat_farm_cast_buffs(int target)
+{
+	record skill_deets{
+		skill name;
+		int casts;
+		string prop;
+	};
+	
+	skill_deets [int]farm_buff;
+
+	farm_buff[1].name = $skill[Chorale of Companionship];
+	farm_buff[1].casts = 10;
+	farm_buff[1].prop = "_companionshipCasts";
+	farm_buff[2].name = $skill[The Ballad of Richie Thingfinder];
+	farm_buff[2].casts = 10;
+	farm_buff[2].prop = "_thingfinderCasts";
+	farm_buff[3].name = $skill[Fat Leon's Phat Loot Lyric];
+	farm_buff[3].casts = target/turns_per_cast($skill[Fat Leon's Phat Loot Lyric]);
+	farm_buff[3].prop = "_phatlootCasts";
+	farm_buff[4].name = $skill[The Polka of Plenty];
+	farm_buff[4].casts = target/turns_per_cast($skill[The Polka of Plenty]);
+	farm_buff[4].prop = "_polkaCasts";
+	farm_buff[5].name = $skill[Empathy of the Newt];
+	farm_buff[5].casts = target/turns_per_cast($skill[Empathy of the Newt]);
+	farm_buff[5].prop = "_empathyCasts";
+	
+	foreach key in farm_buff
+	{
+		if(!property_exists(farm_buff[key].prop))
+			set_property(farm_buff[key].prop, "0");
+		
+		int current_casts = get_property(farm_buff[key].prop).to_int();
+		if(!have_skill(farm_buff[key].name))
+			print("You do not have the skill " + farm_buff[key].name, "blue");
+		else if(current_casts >= farm_buff[key].casts)
+			print(farm_buff[key].name + " has already been casted " + current_casts + " times", "blue");
+		else
+		{
+			while(current_casts < farm_buff[key].casts)
+			{
+				print("Start: " + farm_buff[key].name + " casted " + get_property(farm_buff[key].prop).to_int() + " of " + farm_buff[key].casts, "blue");		
+				
+				int to_cast = farm_buff[key].casts - current_casts;
+				int casts_afford = my_mp()/mp_cost(farm_buff[key].name);
+				
+				if(to_cast <= 0)
+					print(farm_buff[key].name + " has been casted " + farm_buff[key].casts + " times", "blue");
+				else
+				{
+					boolean mp_restore = false;
+					if(casts_afford < to_cast)
+					{
+						to_cast = casts_afford;
+						mp_restore = true;
+					}
+					use_skill(to_cast, farm_buff[key].name, "jag2k2");
+					current_casts = current_casts + to_cast;
+					if(mp_restore)
+						minor_mp_restore();
+				}
+			}
+		}
+		set_property(farm_buff[key].prop, current_casts.to_string());
+	}
 	return 0;
 }
