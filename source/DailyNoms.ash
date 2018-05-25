@@ -1,5 +1,72 @@
 /*From inventory first then from mall, uses milk of mag and eats 3 hi meins*/
 
+void nom_noms(string menu) 
+//[hi meins, perfect drinks, 1-shots, 4-size spleen, 3-size spleen]
+{
+	item [int] consumable;
+	switch(menu)
+	{
+		case "hi meins":
+			print("Will eat hi meins until full", "blue");
+			consumable[0] = $item[cold hi mein]; 
+			consumable[1] = $item[hot hi mein];
+			consumable[2] = $item[sleazy hi mein];
+			consumable[3] = $item[spooky hi mein];
+			consumable[4] = $item[stinky hi mein];
+			break;
+		case "perfect drinks":
+			print("Will drink perfect drinks without getting drunk", "blue");
+			consumable[0] = $item[perfect cosmopolitan];
+			consumable[1] = $item[perfect dark and stormy];
+			consumable[2] = $item[perfect mimosa];
+			consumable[3] = $item[perfect negroni];
+			consumable[4] = $item[perfect old-fashioned];
+			consumable[5] = $item[perfect paloma];
+			break;
+		case "1-shots":
+			print("Will drink a 1-shot drink without getting drunk", "blue");
+			consumable[0] = $item[bottle of norwhiskey];
+			consumable[1] = $item[splendid martini];
+			consumable[2] = $item[Newark];
+			consumable[3] = $item[vodka barracuda];
+			consumable[4] = $item[eighth plague];
+			consumable[5] = $item[distilled fortified wine];
+			break;
+		case "4-size spleen":
+			print("Will chew as many 4-size spleens as possible", "blue");
+			consumable[0] = $item[grim fairy tale];
+			consumable[1] = $item[groose grease];
+			consumable[2] = $item[powdered gold];
+			consumable[3] = $item[Unconscious Collective Dream Jar];
+			break;
+		case "3-size spleen":
+			print("Will chew as many 3-size spleens as possible", "blue");
+			consumable[1] = $item[prismatic wad];
+			break;
+		default:
+			print("Do not recognize that type: " + menu, "blue");
+			break;
+	}
+	
+	record nom_deets{
+		int price;
+		int amount;
+	};
+	
+	nom_deets [item] nom;
+	
+	foreach key in consumable
+	{
+		nom[consumable[key]].price = mall_price(consumable[key]);
+		nom[consumable[key]].amount = item_amount(consumable[key]);
+	}
+	//string item_type(item check_me )
+	foreach key in nom
+	{
+		print(key + " " + nom[key].price + " " + nom[key].amount + " " + item_type(key), "blue");
+	}
+}
+
 void eat_hi_meins()
 {
 	if(my_fullness() >= 15)
@@ -12,6 +79,7 @@ void eat_hi_meins()
 		};
 		
 		nom_deets [item] hi_mein;
+		
 		hi_mein[$item[cold hi mein]].price = mall_price($item[cold hi mein]);
 		hi_mein[$item[cold hi mein]].amount = item_amount($item[cold hi mein]);
 		hi_mein[$item[hot hi mein]].price = mall_price($item[hot hi mein]);
