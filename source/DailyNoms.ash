@@ -14,6 +14,25 @@ int organ_room(string consume_type)
 	}
 }
 
+/*Eat, drink or chew consumable based on item parameter*/
+void consume(int to_consume, item consumable)
+{
+	switch(item_type(consumable))
+	{
+		case "food":
+			eat(to_consume, consumable);
+			return;
+		case "booze":
+			drink(to_consume, consumable);
+			return;
+		case "spleen item":
+			chew(to_consume, consumable);
+			return;
+		default:
+			return;
+	}
+}
+
 /*From inventory first then from mall, uses consumables of specified type*/
 
 void nom_noms(string menu) 
@@ -144,7 +163,7 @@ void nom_noms(string menu)
 				if(nom[key].amount < to_nom)							// But if inventory has less consumables of this type than we can consume
 					to_nom = nom[key].amount;							// Then we are going to consume just what we have (even 0 if that is what we have)
 				print("Want to consume " + to_nom + " " + key, "blue");
-				//consume(to_nom, key);
+				consume(to_nom, key);
 			}
 		}
 		
@@ -153,7 +172,7 @@ void nom_noms(string menu)
 		{
 			print("Retrieving " + to_nom + " " + cheapest, "blue");
 			retrieve_item(to_nom, cheapest);							// Retrieve the cheapest of that many consumables
-			//consume(to_nom, cheapest);									// And consume those too!
+			consume(to_nom, cheapest);									// And consume those too!
 		}
 	}
 }
