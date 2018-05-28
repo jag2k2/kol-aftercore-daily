@@ -450,11 +450,20 @@ boolean check_plumber_arcade()
 /*Visiting the 11th precinct headquarters*/
 int visit_precinct_headquarters()
 {
-	int copdollar_old = item_amount($item[cop dollar]);	
-	string headq_html = visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
-	int copdollar_gen = item_amount($item[cop dollar]) - copdollar_old;
-	print("Harvested " + copdollar_gen + " cop dollars", "blue");
-	return copdollar_gen;
+	if(!property_exists("_precinctHqVisited"))
+		set_property("_precinctHqVisited", "false");
+
+	if(get_property("_precinctHqVisited").to_boolean())
+		print("11th precinct headquarters already visited today", "blue");
+	else
+	{
+		int copdollar_old = item_amount($item[cop dollar]);	
+		visit_url("place.php?whichplace=town_wrong&action=townwrong_precinct");
+		set_property("_precinctHqVisited", "true");
+		int copdollar_gen = item_amount($item[cop dollar]) - copdollar_old;
+		print("Harvested " + copdollar_gen + " cop dollars", "blue");	
+	}
+	return 0;
 }
 
 /*Harvest Sea Jelly*/
