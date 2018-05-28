@@ -339,13 +339,15 @@ int harvest_velvet_gold_mine(int mine_target, boolean ignore_free_mine_limit)
 		return times_mined;
 	}
 
-	outfit("volcano mining");
-	if(elemental_resistance($element[hot])<83.0)
-		print("Not enough hot resistance to mine the volcano", "blue");
-	else if ((get_property("_volcanoMiningActionsUsed").to_int() >= max_free_mines) && (ignore_free_mine_limit == false))
+
+	//if(elemental_resistance($element[hot])<83.0)
+	//	print("Not enough hot resistance to mine the volcano", "blue");
+
+	if ((get_property("_volcanoMiningActionsUsed").to_int() >= max_free_mines) && (ignore_free_mine_limit == false))
 		print("Free mines have already been used today", "blue");
 	else
 	{
+		outfit("volcano mining");
 		while(mine_count < mine_target)
 		{
 			cell_id = -1;
