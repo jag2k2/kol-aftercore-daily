@@ -1,6 +1,14 @@
 import DailyMpRestore.ash
-
 /*Daily Uses and Daily Casts*/
+
+/*Auto places designated item into the mall if specified price is greater than 0*/
+
+void auto_mallsell(item item_to_sell, int item_amount, int item_price)
+{
+	if(item_price > 0)
+		cli_execute("mallsell " + item_amount + " " + item_to_sell + " @ " + item_price);
+}
+
 /*Cast Advanced Saucecrafting*/
 
 int generate_reagents()
@@ -298,16 +306,17 @@ int generate_bacon()
 }
 
 /*Use Time-Spinner*/
-int generate_kardashians()
+int generate_kardashians(int sale_price)
 {
 	int kardashian_gen = 0;
+	item kardashian_shot = $item[shot of kardashian gin];
 	if(get_property("_timeSpinnerReplicatorUsed").to_boolean())
 		print("Time-spinner replicator already used today", "blue");
 	else if(get_property("_timeSpinnerMinutesUsed").to_int() > 8)
 		print("Time-spinner doesn't have enough minutes remaining to run the replicator", "blue");
 	else
 	{
-		int kardashian_old = item_amount($item[shot of kardashian gin]);
+		int kardashian_old = item_amount(kardashian_shot);
 		visit_url("inv_use.php?pwd=&whichitem=9104");						//the use command causes manual control to be requested.  use the url instead
 		run_choice(4);
 		run_choice(1);
@@ -316,17 +325,19 @@ int generate_kardashians()
 		run_choice(5);
 		run_choice(2);
 		
-		kardashian_gen = item_amount($item[shot of kardashian gin]) - kardashian_old;
+		kardashian_gen = item_amount(kardashian_shot) - kardashian_old;
 		print("Generated " + kardashian_gen + " kardashians", "blue");
+		auto_mallsell(kardashian_shot, kardashian_gen, sale_price);
 	}
 	return kardashian_gen;
 }
 	
 /*Use Corked Genie Bottle*/
-int generate_pocket_wishes()
+int generate_pocket_wishes(int sale_price)
 {
+	item pocket_wish = $item[pocket wish];
 	int wishes_used = get_property("_genieWishesUsed").to_int();
-	int wishes_old = item_amount($item[pocket wish]);
+	int wishes_old = item_amount(pocket_wish);
 	if(wishes_used >= 3)
 		print("Genie has no more wishes for the day", "blue");
 	else
@@ -335,9 +346,9 @@ int generate_pocket_wishes()
 		{
 			cli_execute("genie wish for more wishes");
 		}
-	int wishes_gen = item_amount($item[pocket wish]) - wishes_old;
+	int wishes_gen = item_amount(pocket_wish) - wishes_old;
 	print("Generated " + wishes_gen + " pocket wishes", "blue");
-	cli_execute("mallsell " + wishes_gen + " pocket wish @ 52000");
+	auto_mallsell(pocket_wish, wishes_gen, 49999);
 	}
 	return 0;
 }

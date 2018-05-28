@@ -1,3 +1,5 @@
+import DailyUseCasts.ash
+
 /*Using the still*/
 void use_still()
 {
@@ -30,16 +32,17 @@ void harvest_Chateau_Juice_Bar()
 }
 
 /*Harvest the Tea Tree*/
-int harvest_tea_tree()
+int harvest_tea_tree(int sale_price)
 {
+	item royal_tea = $item[cuppa Royal tea];
 	boolean harvested = get_property("_pottedTeaTreeUsed").to_boolean();
 	if(harvested)
 		print("Tea Tree has already been harvested", "blue");
 	else
 	{
 		cli_execute("teatree cuppa Royal tea");
-		cli_execute("mallsell 1 cuppa Royal tea @ 99999");
 		print ("Harvested tea tree", "blue");
+		auto_mallsell(royal_tea, 1, sale_price);
 	}
 	return 0;
 }
@@ -63,10 +66,11 @@ int harvest_gene_tonics()
 }
 
 /*Harvest Terminal Booze*/
-int harvest_terminal_booze()
+int harvest_terminal_booze(int sale_price)
 {
+	item hacked_gibson = $item[hacked gibson];
 	int max_extrudes_per_day = 3;
-	int old_gibsons = item_amount($item[hacked gibson]);
+	int old_gibsons = item_amount(hacked_gibson);
 	int extrudes_harvested = get_property("_sourceTerminalExtrudes").to_int();
 	if (extrudes_harvested >= max_extrudes_per_day)
 		print("Terminal extrudes have already been harvested", "blue");
@@ -74,8 +78,9 @@ int harvest_terminal_booze()
 	{
 		for x from extrudes_harvested to (max_extrudes_per_day - 1)
 			cli_execute("terminal extrude booze");
-		int gibsons_gen = item_amount($item[hacked gibson]) - old_gibsons;
+		int gibsons_gen = item_amount(hacked_gibson) - old_gibsons;
 		print("Harvested " + gibsons_gen + " gibsons", "blue");
+		auto_mallsell(hacked_gibson, gibsons_gen, sale_price);
 	}
 	return 0;
 }
