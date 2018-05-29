@@ -317,13 +317,21 @@ int generate_kardashians(int sale_price)
 	else
 	{
 		int kardashian_old = item_amount(kardashian_shot);
-		visit_url("inv_use.php?pwd=&whichitem=9104");						//the use command causes manual control to be requested.  use the url instead
-		run_choice(4);
-		run_choice(1);
-		run_choice(4);
-		run_choice(2);
-		run_choice(5);
-		run_choice(2);
+		visit_url("inv_use.php?pwd=&whichitem=9104");									// The "use" command causes manual control to be requested.  use the "visit_url" instead
+		
+		visit_url("choice.php?whichchoice=1195&option=4&pwd");							// Visit the far future
+		string quarters_page = visit_url("choice.php?whichchoice=1199&option=1&pwd");	// Don't think this choice matters.  Chose any ship name
+		
+																						// ..e=option value=3><input class=button type=submit value="Use the Replicator"></f..		
+		int choice_index = quarters_page.index_of("value=\"Use the Replicator\"")-35;  	// Look for the choice to use the replicator.  The value of the choice is 34(or 35 for some reason) characters behind the substring "value='Use the Replicator'
+		run_choice(quarters_page.char_at(choice_index).to_int());						// This visits the replicator
+		
+		quarters_page = visit_url("choice.php?whichchoice=1199&option=2&pwd");			// Replicate a Shot of kardashian gin
+
+		choice_index = quarters_page.index_of("value=\"Go to sleep\"")-35;				// Look for choice to go to sleep
+		run_choice(quarters_page.char_at(choice_index).to_int());						// This choice goes to sleep
+
+		visit_url("choice.php?whichchoice=1199&option=2&pwd");							// Confirm choice
 		
 		kardashian_gen = item_amount(kardashian_shot) - kardashian_old;
 		print("Generated " + kardashian_gen + " kardashians", "blue");
