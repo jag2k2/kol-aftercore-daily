@@ -165,7 +165,7 @@ void nom_noms(string menu)
 		int price = 9999999;
 		int to_nom = 0;
 		
-		foreach key in nom
+		foreach key in nom													// Go through all consumables of the specified type and see if you can spin them first before consuming from inventory or mall
 		{
 			to_nom = organ_room(nom_type)/nom_size;							// Represents number of consumables we intend to take
 			int spins_avail = nom_spinsAvail(key);							// Represents number of spins available for a particular consumable
@@ -179,20 +179,20 @@ void nom_noms(string menu)
 			}
 		}
 		
-		foreach key in nom												// For each item in this map
+		foreach key in nom													// For each item in this map
 		{
 			print(key + " " + nom[key].price + " " + nom[key].amount + " " + item_type(key), "blue");
-			if(nom[key].price < price)									// See if it s the mall cheapest just in case we need to buy some
+			if(nom[key].price < price)										// See if it s the mall cheapest just in case we need to buy some
 			{
 				cheapest = key;
 				price = nom[key].price;
 			}
 			
 			/*to_nom = organ_room(nom_type)/nom_size;						// Calc how many more consumables we can consume today
-			if(to_nom > 0)												// If there is room in the appropriate organ for 1 or more of the consumable
+			if(to_nom > 0 && nom[key].amount > 0)							// If there is room in the appropriate organ for 1 or more of the consumable and there is atleast one of these consumables in inventory
 			{
-				if(nom[key].amount < to_nom)							// But if inventory has less consumables of this type than we can consume
-					to_nom = nom[key].amount;							// Then we are going to consume just what we have (even 0 if that is what we have).  Otherwise we will consume as much as will fit into the organ.
+				if(nom[key].amount < to_nom)								// But if inventory has less consumables of this type than we can consume
+					to_nom = nom[key].amount;								// Then we are going to consume just what we have.  Otherwise we will consume as much as will fit into the organ.
 				print("Want to consume " + to_nom + " " + key, "blue");
 				consume(to_nom, key);
 			}*/
