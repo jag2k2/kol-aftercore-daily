@@ -165,9 +165,6 @@ void nom_noms(string menu)
 		int price = 9999999;
 		int to_nom = 0;
 		
-		//_timeSpinnerFoodAvailable=1595,1592
-		//_timeSpinnerMinutesUsed=0
-
 		foreach key in nom
 		{
 			to_nom = organ_room(nom_type)/nom_size;							// Represents number of consumables we intend to take
