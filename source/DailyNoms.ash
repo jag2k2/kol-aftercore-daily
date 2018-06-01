@@ -33,6 +33,31 @@ void consume(int to_consume, item consumable)
 	}
 }
 
+/*Find number of times we could time-spin the specified consumable*/
+int nom_spinsAvail(item consumable)
+{
+	int spins_avail = 0;
+	if (item_amount($item[time-spinner])==0)
+		return 0;
+	else if (get_property("_timeSpinnerFoodAvailable").contains_text(consumable.to_int().to_string()) || consumable == $item[none])
+		spins_avail = (10 - get_property("_timeSpinnerMinutesUsed").to_int())/3;
+	return spins_avail;
+}
+
+/*Spin-eat as many of the specified item as possible*/
+void travelBack_deliciousMeals(int to_spin, item consumable)
+{
+	int spins_available = nom_spinsAvail(consumable);							// Represents number of spins available for a particular consumable
+	if(to_spin > 0 && spins_available > 0)										// If there is room in the appropriate organ for 1 or more of the consumable and it is available for at least 1 time-spin
+	{
+		if(spins_available < to_spin)											// If there are less spins available than what is needed to fill the stomach
+			to_spin = spins_available;											// Then we are just going to spin-eat what we can.  Otherwise we will spin as much as will fit into the stomach.
+		print("Spinning " + to_spin + " " + consumable, "blue");
+		for x from 1 to to_spin													// One at a time, use the time-spinner to consume	
+			cli_execute("timespinner eat " + consumable);
+	}
+}
+
 /*From inventory first then from mall, uses consumables of specified type*/
 
 void nom_noms(string menu) 
@@ -147,32 +172,53 @@ void nom_noms(string menu)
 		item cheapest;
 		int price = 9999999;
 		int to_nom = 0;
+		int spins_avail = 0;
 		
-		foreach key in nom												// For each item in this map
+		foreach key in nom													// Go through all consumables of the specified type and see if you can spin them first before consuming from inventory or mall
+		{
+			int to_nom = organ_room(nom_type)/nom_size;						// Represents number of consumables we intend to take
+			travelBack_deliciousMeals(to_nom, key);							// Spin-eat the specified consumable up to either the number of spins we have left or the stomach room
+		}
+		
+		foreach key in nom													// For each item in this map
 		{
 			print(key + " " + nom[key].price + " " + nom[key].amount + " " + item_type(key), "blue");
-			if(nom[key].price < price)									// See if it s the mall cheapest just in case we need to buy some
+			if(nom[key].price < price)										// See if it s the mall cheapest just in case we need to buy some
 			{
 				cheapest = key;
 				price = nom[key].price;
 			}
 			
-			to_nom = organ_room(nom_type)/nom_size;						// Calc how many more consumables we can consume today
-			if(to_nom > 0)												// If there is room in the appropriate organ for 1 or more of the consumable
+			to_nom = organ_room(nom_type)/nom_size;							// Calc how many more consumables we can consume today
+			spins_avail = nom_spinsAvail($item[none]);						// See how many spins we have left in the time spinner regardless of consumable
+			if(to_nom > 0 && nom[key].amount > 0)							// If there is room in the appropriate organ for 1 or more of the consumable and there is atleast one of these consumables in inventory
 			{
-				if(nom[key].amount < to_nom)							// But if inventory has less consumables of this type than we can consume
-					to_nom = nom[key].amount;							// Then we are going to consume just what we have (even 0 if that is what we have)
-				print("Want to consume " + to_nom + " " + key, "blue");
+				to_nom -= spins_avail;										// Reduce the number of consumables to eat by the number of spins available (coerce to a minimum of 1).
+				if (to_nom < 1)												
+					to_nom = 1;
+				if(nom[key].amount < to_nom)								// If inventory has less consumables of this type than we want to consume
+					to_nom = nom[key].amount;								// Then we are going to consume just what we have.  Otherwise we will consume as much as will fit into the organ.
+				print("Consuming " + to_nom + " " + key, "blue");
 				consume(to_nom, key);
 			}
+			to_nom = organ_room(nom_type)/nom_size;							// Recheck the number of consumables we have room for
+			travelBack_deliciousMeals(to_nom, key);							// Time-spin that many consumables
+			
 		}
 		
-		to_nom = organ_room(nom_type)/nom_size;							// After consuming from inventory, calc how many more consumables of this type and size we can consume today
-		if(to_nom > 0)													// If still room to eat 1 or more of this type of consumable		
+		to_nom = organ_room(nom_type)/nom_size;								// After consuming from inventory, calc how many more consumables of this type and size we can consume today
+		spins_avail = nom_spinsAvail($item[none]);							// See how many spins we have left in the time spinner regardless of consumable
+		if(to_nom > 0)														// If still room to eat 1 or more of this type of consumable		
 		{
-			print("Retrieving " + to_nom + " " + cheapest, "blue");
-			retrieve_item(to_nom, cheapest);							// Retrieve the cheapest of that many consumables
-			consume(to_nom, cheapest);									// And consume those too!
+			to_nom -= spins_avail;											// Reduce the number of consumables to eat by the number of spins available (coerce to a minimum of 1).
+			if (to_nom < 1)												
+				to_nom = 1;
+			print("Retrieving and consuming" + to_nom + " " + cheapest, "blue");
+			retrieve_item(to_nom, cheapest);								// Retrieve the cheapest of that many consumables
+			consume(to_nom, cheapest);										// And consume those too!
+			
+			to_nom = organ_room(nom_type)/nom_size;							// Recheck the number of consumables we have room for
+			travelBack_deliciousMeals(to_nom, cheapest);					// Time-spin that many consumables
 		}
 	}
 }
