@@ -51,6 +51,23 @@ int generate_cocktail_ingredients()
 	return shell_gen + umbrella_gen + cube_gen;
 }
 
+/*Summon 3 Sugar Sheets*/
+int generate_sugar_sheets()
+{
+	int max_summons_per_day = 3;
+	int sheets_old = item_amount($item[Sugar Sheet]);
+	int summons_used = get_property("_sugarSummons").to_int();
+	if (summons_used >= max_summons_per_day)
+		print("Sugar summons already used", "blue");
+	else
+	{
+		use_skill(3, $skill[Summon Sugar Sheets]);
+		int sheets_gen = item_amount($item[Sugar Sheet]) - sheets_old;
+		print("Generated " + sheets_gen + " sugar sheets", "blue");
+	}
+	return 0;
+}
+
 /*Summon 3 smithsness*/
 int generate_smithsness()
 {
