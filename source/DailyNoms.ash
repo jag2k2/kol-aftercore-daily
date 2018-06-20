@@ -20,10 +20,10 @@ int consume(int to_consume, item consumable)
 	switch(item_type(consumable))
 	{
 		case "food":
-			eat(to_consume, consumable);
+			eatsilent(to_consume, consumable);
 			break;
 		case "booze":
-			drink(to_consume, consumable);
+			overdrink(to_consume, consumable);
 			break;
 		case "spleen item":
 			chew(to_consume, consumable);
