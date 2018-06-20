@@ -71,19 +71,22 @@ int generate_sugar_sheets()
 /*Summon 3 smithsness*/
 int generate_smithsness()
 {
-	int old_flasks = item_amount($item[Flaskfull of Hollow]);
-	int old_lumps = item_amount($item[lump of Brituminous coal]);
-	int old_smithereeens = item_amount($item[handful of Smithereens]);
-	
-	use_skill(3, $skill[Summon Smithsness]);
-	
-	int flasks_gen = item_amount($item[Flaskfull of Hollow]) - old_flasks;
-	int lumps_gen = item_amount($item[lump of Brituminous coal]) - old_lumps;
-	int smithereens_gen = item_amount($item[handful of Smithereens]) - old_smithereeens;
-	
-	print("Generated " + flasks_gen + " flasks, " + lumps_gen + " coals, and " + smithereens_gen + " smithereens", "blue");
-	return flasks_gen + lumps_gen + smithereens_gen;
-	
+	int max_summons_per_day = 3;
+	int flasks_old = item_amount($item[Flaskfull of Hollow]);
+	int lumps_old = item_amount($item[lump of Brituminous coal]);
+	int smithereeens_old = item_amount($item[handful of Smithereens]);
+	int summons_used = get_property("_smithsnessSummons").to_int();
+	if (summons_used >= max_summons_per_day)
+		print("Smithsness summons already used", "blue");
+	else
+	{
+		use_skill(3, $skill[Summon Smithsness]);
+		int flasks_gen = item_amount($item[Flaskfull of Hollow]) - flasks_old;
+		int lumps_gen = item_amount($item[lump of Brituminous coal]) - lumps_old;
+		int smithereens_gen = item_amount($item[handful of Smithereens]) - smithereeens_old;
+		print("Generated " + flasks_gen + " flasks, " + lumps_gen + " coals, and " + smithereens_gen + " smithereens", "blue");
+	}
+	return 0;
 }
 
 /*Summon 3 Clip Arts*/
