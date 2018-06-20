@@ -14,23 +14,24 @@ int organ_room(string consume_type)
 	}
 }
 
-/*Eat, drink or chew consumable based on item parameter*/
-void consume(int to_consume, item consumable)
+/*Eat, drink or chew consumable based on item parameter and returns the number of items that were consumed*/
+int consume(int to_consume, item consumable)
 {
 	switch(item_type(consumable))
 	{
 		case "food":
-			eat(to_consume, consumable);
-			return;
+			eatsilent(to_consume, consumable);
+			break;
 		case "booze":
-			drink(to_consume, consumable);
-			return;
+			overdrink(to_consume, consumable);
+			break;
 		case "spleen item":
 			chew(to_consume, consumable);
-			return;
+			break;
 		default:
-			return;
+			return 0;
 	}
+	return to_consume;
 }
 
 /*Find number of times we could time-spin the specified consumable*/
@@ -45,7 +46,7 @@ int nom_spinsAvail(item consumable)
 }
 
 /*Spin-eat as many of the specified item as possible*/
-void travelBack_deliciousMeals(int to_spin, item consumable)
+int travelBack_deliciousMeals(int to_spin, item consumable)						// Returns the number of meal spins that were actually performed
 {
 	int spins_available = nom_spinsAvail(consumable);							// Represents number of spins available for a particular consumable
 	if(to_spin > 0 && spins_available > 0)										// If there is room in the appropriate organ for 1 or more of the consumable and it is available for at least 1 time-spin
@@ -55,20 +56,23 @@ void travelBack_deliciousMeals(int to_spin, item consumable)
 		print("Spinning " + to_spin + " " + consumable, "blue");
 		for x from 1 to to_spin													// One at a time, use the time-spinner to consume	
 			cli_execute("timespinner eat " + consumable);
+		return to_spin;
 	}
+	else
+		return 0;
 }
 
 /*From inventory first then from mall, uses consumables of specified type*/
 
-void nom_noms(string menu) 
+void nom_noms(string menu, boolean fill_up) 
 //[hi mein, perfect drink, 1-size booze, 4-size spleen, 3-size spleen]
 {
 	item [int] consumable;
 	int nom_size;
 	switch(menu)
 	{
-		case "hi meins":
-			print("Will eat hi meins until full", "blue");
+		case "hi mein":
+			print("Will eat hi mein", "blue");
 			nom_size = 5;
 			consumable[0] = $item[cold hi mein]; 
 			consumable[1] = $item[hot hi mein];
@@ -76,8 +80,13 @@ void nom_noms(string menu)
 			consumable[3] = $item[spooky hi mein];
 			consumable[4] = $item[stinky hi mein];
 			break;
-		case "perfect drinks":
-			print("Will drink perfect drinks without getting drunk", "blue");
+		case "jumping horseradish":
+			print("Will eat one jumping horseradish", "blue");
+			nom_size = 1;
+			consumable[0] = $item[jumping horseradish];
+			break;
+		case "perfect booze":
+			print("Will drink perfect booze without getting drunk", "blue");
 			nom_size = 3;
 			consumable[0] = $item[perfect cosmopolitan];
 			consumable[1] = $item[perfect dark and stormy];
@@ -96,8 +105,18 @@ void nom_noms(string menu)
 			consumable[4] = $item[eighth plague];
 			consumable[5] = $item[distilled fortified wine];
 			break;
+		case "Ambitious Turkey":
+			print("Will drink one Ambitious Turkey without getting drunk", "blue");
+			nom_size = 1;
+			consumable[0] = $item[Ambitious Turkey];
+			break;
+		case "Cold One":
+			print("Will drink one Cold One without getting drunk", "blue");
+			nom_size = 1;
+			consumable[0] = $item[Cold One];
+			break;
 		case "4-size spleen":
-			print("Will chew as many 4-size spleens as possible", "blue");
+			print("Will chew 4-size spleen items", "blue");
 			nom_size = 4;
 			consumable[0] = $item[grim fairy tale];
 			consumable[1] = $item[groose grease];
@@ -106,7 +125,7 @@ void nom_noms(string menu)
 			break;
 		case "3-size spleen":
 			nom_size = 3;
-			print("Will chew as many 3-size spleens as possible", "blue");
+			print("Will chew 3-size spleens items", "blue");
 			consumable[0] = $item[prismatic wad];
 			break;
 		default:
@@ -122,8 +141,8 @@ void nom_noms(string menu)
 	{
 		if(nom_type == "food")
 		{
-			if(have_effect($effect[Got Milk]) > 0)
-				print("Already have milk of mag effect", "blue");
+			if(have_effect($effect[Got Milk]) > 0 || organ_room(nom_type) < 3)
+				print("Already have milk of mag effect or not enough stomach room to make it worth it", "blue");
 			else
 			{
 				retrieve_item(1, $item[milk of magnesium]);														// Get (if necessary) and use 1 milk of magnesium
@@ -173,11 +192,16 @@ void nom_noms(string menu)
 		int price = 9999999;
 		int to_nom = 0;
 		int spins_avail = 0;
+		int consumed = 0;
 		
 		foreach key in nom													// Go through all consumables of the specified type and see if you can spin them first before consuming from inventory or mall
 		{
 			int to_nom = organ_room(nom_type)/nom_size;						// Represents number of consumables we intend to take
-			travelBack_deliciousMeals(to_nom, key);							// Spin-eat the specified consumable up to either the number of spins we have left or the stomach room
+			if(!fill_up)
+				to_nom = 1;
+			consumed += travelBack_deliciousMeals(to_nom, key);							// Spin-eat the specified consumable up to either the number of spins we have left or the stomach room
+			if(consumed > 0 && !fill_up)
+				return;
 		}
 		
 		foreach key in nom													// For each item in this map
@@ -194,16 +218,19 @@ void nom_noms(string menu)
 			if(to_nom > 0 && nom[key].amount > 0)							// If there is room in the appropriate organ for 1 or more of the consumable and there is atleast one of these consumables in inventory
 			{
 				to_nom -= spins_avail;										// Reduce the number of consumables to eat by the number of spins available (coerce to a minimum of 1).
-				if (to_nom < 1)												
+				if (to_nom < 1 || !fill_up)												
 					to_nom = 1;
 				if(nom[key].amount < to_nom)								// If inventory has less consumables of this type than we want to consume
 					to_nom = nom[key].amount;								// Then we are going to consume just what we have.  Otherwise we will consume as much as will fit into the organ.
 				print("Consuming " + to_nom + " " + key, "blue");
-				consume(to_nom, key);
+				consumed += consume(to_nom, key);
+				if(consumed > 0 && !fill_up)
+					return;
 			}
 			to_nom = organ_room(nom_type)/nom_size;							// Recheck the number of consumables we have room for
-			travelBack_deliciousMeals(to_nom, key);							// Time-spin that many consumables
-			
+			consumed += travelBack_deliciousMeals(to_nom, key);				// Time-spin that many consumables
+			if(consumed > 0 && !fill_up)
+				return;
 		}
 		
 		to_nom = organ_room(nom_type)/nom_size;								// After consuming from inventory, calc how many more consumables of this type and size we can consume today
@@ -211,11 +238,13 @@ void nom_noms(string menu)
 		if(to_nom > 0)														// If still room to eat 1 or more of this type of consumable		
 		{
 			to_nom -= spins_avail;											// Reduce the number of consumables to eat by the number of spins available (coerce to a minimum of 1).
-			if (to_nom < 1)												
+			if (to_nom < 1 || !fill_up)												
 				to_nom = 1;
 			print("Retrieving and consuming" + to_nom + " " + cheapest, "blue");
 			retrieve_item(to_nom, cheapest);								// Retrieve the cheapest of that many consumables
-			consume(to_nom, cheapest);										// And consume those too!
+			consumed += consume(to_nom, cheapest);							// And consume those too!
+			if(consumed > 0 && !fill_up)
+				return;
 			
 			to_nom = organ_room(nom_type)/nom_size;							// Recheck the number of consumables we have room for
 			travelBack_deliciousMeals(to_nom, cheapest);					// Time-spin that many consumables
