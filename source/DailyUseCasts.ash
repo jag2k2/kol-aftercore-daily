@@ -92,7 +92,7 @@ int generate_smithsness()
 }
 
 /*Summon 3 Clip Arts*/
-int generate_clip_art()
+int generate_clip_art(string clip_string, int sale_price)
 {
 	int max_summons_per_day = 3;
 	int summons_used = get_property("_clipartSummons").to_int();
@@ -101,11 +101,13 @@ int generate_clip_art()
 	else
 	{
 		int to_summon = max_summons_per_day - summons_used;
-		int buckets_old = item_amount($item[bucket of wine]);
+		item clip_item = to_item(clip_string);
+		int clip_item_old = item_amount(clip_item);
 		for x from 1 to to_summon
-			cli_execute("create bucket of wine");
-		int buckets_gen = item_amount($item[bucket of wine]) - buckets_old;
-		print("Generated " + buckets_gen + " buckets of wine", "blue");
+			cli_execute("create " + clip_string);
+		int clip_item_gen = item_amount(clip_item) - clip_item_old;
+		print("Generated " + clip_item_gen + " " + clip_item, "blue");
+		auto_mallsell(clip_item, clip_item_gen, sale_price);
 	}
 	return 0;
 }
