@@ -120,9 +120,9 @@ void main()
 				generate_resolutions(100);
 				once_daily_meatBuffs();								// LOVE Tunnel restores all MP
 				generate_resolutions(100);
-				use(1, $item[License to Chill]);					// Get 5 adv and restore all MP
+				use_license();										// Get 5 adv and restore all MP
 				generate_resolutions(100);
-				use(1, $item[Platinum Yendorian Express Card]);		// Extend all buffs by 5 and restore all MP
+				use_express_card();									// Extend all buffs by 5 and restore all MP
 				generate_resolutions(50);
 				
 				adv = my_adventures();
