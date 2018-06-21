@@ -479,3 +479,13 @@ int meat_farm_cast_buffs(int target)
 	}
 	return 0;
 }
+
+/* Get KGB Briefcase buff */
+void kbg_briefcase_buff()
+{
+	if(get_property("_kgbClicksUsed").to_int() >= 24)
+		print("Already received kgb buffs for the day");
+	else
+		for x from 1 to 8
+			cli_execute("briefcase buff meat");
+}
