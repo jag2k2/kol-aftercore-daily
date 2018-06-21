@@ -387,14 +387,27 @@ int generate_pocket_wishes(int sale_price)
 }
 
 /*Cast Max Resolutions*/
-int generate_resolutions()
+int generate_resolutions(int mp_pct)
 {
-	int old_kinders = item_amount($item[resolution: be kinder]);
-	while (my_mp() > mp_cost($skill[Summon Resolutions]))
+	int already_cast = get_property("libramSummons").to_int();
+	int mp_to_use = (my_mp()* mp_pct / 100).to_int();
+	
+	int n = already_cast;
+	int mp_total_cost = 0;
+	while(mp_total_cost < mp_to_use)
 	{
-		print("Resolutions MP cost: " + mp_cost($skill[Summon Resolutions]), "blue");
-		use_skill($skill[Summon Resolutions]);
+		n++;
+		mp_total_cost = mp_total_cost + 1+(n*(n-1)/2);
 	}
+	
+	n--;
+	int to_cast = n - already_cast;
+	
+	to_cast = max(0,to_cast);
+
+	print("Have cast libram " + already_cast + " times. Can cast " + to_cast + " more times.", "blue");
+	
+	use_skill(to_cast, $skill[Summon Resolutions]);
 
 	return 0;
 }
