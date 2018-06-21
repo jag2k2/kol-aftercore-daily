@@ -55,13 +55,14 @@ int generate_cocktail_ingredients()
 int generate_sugar_sheets()
 {
 	int max_summons_per_day = 3;
-	int sheets_old = item_amount($item[Sugar Sheet]);
 	int summons_used = get_property("_sugarSummons").to_int();
 	if (summons_used >= max_summons_per_day)
 		print("Sugar summons already used", "blue");
 	else
 	{
-		use_skill(3, $skill[Summon Sugar Sheets]);
+		int to_summon = max_summons_per_day - summons_used;
+		int sheets_old = item_amount($item[Sugar Sheet]);
+		use_skill(to_summon, $skill[Summon Sugar Sheets]);
 		int sheets_gen = item_amount($item[Sugar Sheet]) - sheets_old;
 		print("Generated " + sheets_gen + " sugar sheets", "blue");
 	}
@@ -72,15 +73,16 @@ int generate_sugar_sheets()
 int generate_smithsness()
 {
 	int max_summons_per_day = 3;
-	int flasks_old = item_amount($item[Flaskfull of Hollow]);
-	int lumps_old = item_amount($item[lump of Brituminous coal]);
-	int smithereeens_old = item_amount($item[handful of Smithereens]);
 	int summons_used = get_property("_smithsnessSummons").to_int();
 	if (summons_used >= max_summons_per_day)
 		print("Smithsness summons already used", "blue");
 	else
 	{
-		use_skill(3, $skill[Summon Smithsness]);
+		int to_summon = max_summons_per_day - summons_used;
+		int flasks_old = item_amount($item[Flaskfull of Hollow]);
+		int lumps_old = item_amount($item[lump of Brituminous coal]);
+		int smithereeens_old = item_amount($item[handful of Smithereens]);
+		use_skill(to_summon, $skill[Summon Smithsness]);
 		int flasks_gen = item_amount($item[Flaskfull of Hollow]) - flasks_old;
 		int lumps_gen = item_amount($item[lump of Brituminous coal]) - lumps_old;
 		int smithereens_gen = item_amount($item[handful of Smithereens]) - smithereeens_old;
@@ -90,19 +92,22 @@ int generate_smithsness()
 }
 
 /*Summon 3 Clip Arts*/
-int generate_clip_art()
+int generate_clip_art(string clip_string, int sale_price)
 {
 	int max_summons_per_day = 3;
-	int buckets_old = item_amount($item[bucket of wine]);
 	int summons_used = get_property("_clipartSummons").to_int();
 	if (summons_used >= max_summons_per_day)
 		print("Clip Art summons already used", "blue");
 	else
 	{
-		for x from summons_used to (max_summons_per_day - 1)
-			cli_execute("create bucket of wine");
-		int buckets_gen = item_amount($item[bucket of wine]) - buckets_old;
-		print("Generated " + buckets_gen + " buckets of wine", "blue");
+		int to_summon = max_summons_per_day - summons_used;
+		item clip_item = to_item(clip_string);
+		int clip_item_old = item_amount(clip_item);
+		for x from 1 to to_summon
+			cli_execute("create " + clip_string);
+		int clip_item_gen = item_amount(clip_item) - clip_item_old;
+		print("Generated " + clip_item_gen + " " + clip_item, "blue");
+		auto_mallsell(clip_item, clip_item_gen, sale_price);
 	}
 	return 0;
 }
