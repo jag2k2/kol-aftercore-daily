@@ -489,3 +489,26 @@ void kbg_briefcase_buff()
 		for x from 1 to 8
 			cli_execute("briefcase buff meat");
 }
+
+/*Use license to chill*/
+void use_license()
+{
+	if(get_property("_licenseToChillUsed").to_boolean())
+		print("License to Chill already used today", "blue");
+	else
+	{
+		int delights_old = item_amount($item[afternoon delight]);
+		use(1, $item[license to chill]);
+		int delights_gen = item_amount($item[afternoon delight]) - delights_old;
+		print ("Generated " + delights_gen + " afternoon delights", "blue");
+	}
+}
+
+/* Use Express Card */
+void use_express_card()
+{
+	if(get_property("expressCardUsed").to_boolean())
+		print("Express Card already used today", "blue");
+	else
+		use(1, $item[Platinum Yendorian Express Card]);
+}

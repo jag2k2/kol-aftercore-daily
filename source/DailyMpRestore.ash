@@ -80,24 +80,6 @@ boolean use_grogpagne()
 	}
 }
 
-/*Use license to chill*/
-boolean use_license()
-{
-	if(get_property("_licenseToChillUsed").to_boolean())
-	{
-		print("License to Chill already used today", "blue");
-		return false;
-	}
-	else
-	{
-		int delights_old = item_amount($item[afternoon delight]);
-		use(1, $item[license to chill]);
-		int delights_gen = item_amount($item[afternoon delight]) - delights_old;
-		print ("Generated " + delights_gen + " afternoon delights", "blue");
-		return true;
-	}
-}
-
 /*Use smaller sources of daily mp restore to bump available MP*/
 int minor_mp_restore()
 {
