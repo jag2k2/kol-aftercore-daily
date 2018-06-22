@@ -80,16 +80,18 @@ int free_fight_witchess()
 }
 
 /*Free Eldritch Tent Fight*/
-int free_fight_eldritch_tent()
+void free_fight_eldritch_tent()
 {
 	if(get_property("_eldritchTentacleFought").to_boolean())
 		print("Eldritch tenactle (tent) already fought", "blue");
 	else
 	{
 		visit_url("place.php?whichplace=forestvillage&action=fv_scientist");
-		run_choice(1);
+		if(item_amount($item[eldritch essence]) > 0)
+			run_choice(2);
+		else
+			run_choice(1);
 	}
-	return 0;
 }
 
 /*Free Eldritch Skill Fight*/
