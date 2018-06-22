@@ -429,15 +429,12 @@ int meat_farm_cast_buffs(int target)
 	farm_buff[2].name = $skill[The Ballad of Richie Thingfinder];
 	farm_buff[2].casts = 10;
 	farm_buff[2].prop = "_thingfinderCasts";
-	farm_buff[3].name = $skill[Fat Leon's Phat Loot Lyric];
-	farm_buff[3].casts = target/turns_per_cast($skill[Fat Leon's Phat Loot Lyric]);
-	farm_buff[3].prop = "_phatlootCasts";
-	farm_buff[4].name = $skill[The Polka of Plenty];
-	farm_buff[4].casts = target/turns_per_cast($skill[The Polka of Plenty]);
-	farm_buff[4].prop = "_polkaCasts";
-	farm_buff[5].name = $skill[Empathy of the Newt];
-	farm_buff[5].casts = target/turns_per_cast($skill[Empathy of the Newt]);
-	farm_buff[5].prop = "_empathyCasts";
+	farm_buff[3].name = $skill[The Polka of Plenty];
+	farm_buff[3].casts = target/turns_per_cast($skill[The Polka of Plenty]);
+	farm_buff[3].prop = "_polkaCasts";
+	farm_buff[4].name = $skill[Empathy of the Newt];
+	farm_buff[4].casts = target/turns_per_cast($skill[Empathy of the Newt]);
+	farm_buff[4].prop = "_empathyCasts";
 	
 	foreach key in farm_buff
 	{
