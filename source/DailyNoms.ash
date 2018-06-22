@@ -153,6 +153,8 @@ void nom_noms(string menu, boolean fill_up)
 		
 		else if(nom_type == "booze")
 		{
+			if(have_effect($effect[Fat Leon's Phat Loot Lyric]) > 0)
+				cli_execute("uneffect Fat Leon's Phat Loot Lyric");
 			if(have_effect($effect[Ode to Booze]) >= organ_room(nom_type))
 				print("Already enough Ode to Booze to fill entire liver", "blue");
 			else
