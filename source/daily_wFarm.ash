@@ -36,13 +36,13 @@ void daily_chores()
 	cheat_deck_every_card("Island");
 	cheat_deck_every_card("Rope");
 	generate_bacon();
-	generate_kardashians(14999);
+	generate_kardashians();
 	generate_pocket_wishes(49999);
 	get_clovers();
 	harvest_Chateau_Juice_Bar();
 	harvest_tea_tree(99999);
 	harvest_gene_tonics();
-	harvest_terminal_booze(9999);
+	harvest_terminal_booze();
 	harvest_terminal_buffs();
 	harvest_garden();
 	harvest_clan_meat_tree();
@@ -125,9 +125,9 @@ void main()
 				use_express_card();									// Extend all buffs by 5 and restore all MP
 				generate_resolutions(50);
 				
-				farm_emezzler_copies();
-				
-				meatFarm_fam_equip();								// Meat farm buff equips MP reduction gear and base Potions equips Travoltan Trousers.  Need to equip farm equipment before adventuring.
+				meatFarm_fam_equip();				
+				farm_emezzler_copies();			
+								
 				adventure(adv , $location[Barf Mountain], "olfact_tourist");
 				
 				outfit("adventure pajamas");
