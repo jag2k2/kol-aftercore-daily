@@ -22,7 +22,7 @@ void daily_chores()
 	generate_cocktail_ingredients();
 	generate_sugar_sheets();
 	generate_smithsness();
-	generate_clip_art("box of Familiar Jacks", 9999);
+	generate_clip_art("box of Familiar Jacks", 11999);
 	generate_perfect_ice_cubes();
 	generate_army_cards();
 	generate_confiscated_things();
@@ -66,8 +66,8 @@ void daily_chores()
 void meat_farm_prep()
 {	
 	meatFarm_create_copiers();
-	kbg_briefcase_buff();
-	get_dark_horse();	
+	get_dark_horse();
+	kbg_briefcase_buff();	
 }
 	
 void fight_freely()
@@ -109,25 +109,24 @@ void main()
 				nom_noms("3-size spleen", false);
 
 				meat_farm_prep();
-				
-				int adv = 95;	
-				//use_GreenSpan();
+
+
+				int adv = my_adventures();	
 				self_buff_meat_effects(adv);
 				meatFarm_base_potions(adv);
-				meatFarm_fam_equip();								// Meat farm buff equips MP reduction gear and base Potions equips Travoltan Trousers.  Need to equip farm equipment before adventuring.
-				adventure(adv , $location[Barf Mountain], "olfact_tourist");
+				//use_GreenSpan();
 				
 				generate_resolutions(100);
 				once_daily_meatBuffs();								// LOVE Tunnel restores all MP
 				generate_resolutions(100);
 				use_license();										// Get 5 adv and restore all MP
+				my_adventures()+= 5;
 				generate_resolutions(100);
 				use_express_card();									// Extend all buffs by 5 and restore all MP
 				generate_resolutions(50);
 				
-				adv = my_adventures();
-				self_buff_meat_effects(adv);
-				meatFarm_base_potions(adv);
+				farm_emezzler_copies();
+				
 				meatFarm_fam_equip();								// Meat farm buff equips MP reduction gear and base Potions equips Travoltan Trousers.  Need to equip farm equipment before adventuring.
 				adventure(adv , $location[Barf Mountain], "olfact_tourist");
 				
