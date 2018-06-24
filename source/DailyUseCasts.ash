@@ -476,6 +476,19 @@ int meat_farm_cast_buffs(int target)
 	}
 	return 0;
 }
+/* Get the Amulet Coin */
+void generate_amulet_coin()
+{
+	if(item_amount($item[amulet coin]) > 0)
+		print("Already generated amulet coin today", "blue");
+	else
+	{
+		use_familiar($familiar[Cornbeefadon]);
+		retrieve_item(1, $item[Box of Familiar Jacks]);
+		use(1, $item[Box of Familiar Jacks]);
+	}
+}
+
 
 /* Get KGB Briefcase buff */
 void kbg_briefcase_buff()
