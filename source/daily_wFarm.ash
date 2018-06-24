@@ -65,6 +65,7 @@ void daily_chores()
 	
 void meat_farm_prep()
 {	
+	generate_amulet_coin();
 	meatFarm_create_copiers();
 	get_dark_horse();
 	kbg_briefcase_buff();	
@@ -97,10 +98,11 @@ void main()
 			else
 			{
 				daily_chores();
-				nom_noms("hi mein", true);
-				
+	
+				// todo: want to make a free fight outfit function.  right now that outfit is equiped inside the fight penguin function
 				fight_freely();
-				
+
+				nom_noms("hi mein", true);				
 				nom_noms("jumping horseradish", false);	
 				nom_noms("perfect booze", true);
 				nom_noms("Ambitious Turkey", false);
@@ -110,24 +112,27 @@ void main()
 
 				meat_farm_prep();
 
-
-				int adv = my_adventures();	
-				self_buff_meat_effects(adv);
-				meatFarm_base_potions(adv);
-				//use_GreenSpan();
-				
+				// todo: want to make a max mp function to get more value out of these max mp restores
 				generate_resolutions(100);
 				once_daily_meatBuffs();								// LOVE Tunnel restores all MP
 				generate_resolutions(100);
 				use_license();										// Get 5 adv and restore all MP
-				my_adventures()+= 5;
 				generate_resolutions(100);
 				use_express_card();									// Extend all buffs by 5 and restore all MP
 				generate_resolutions(50);
 				
-				meatFarm_fam_equip();				
-				farm_emezzler_copies();			
-								
+				// todo:  want to bubble up outfit function that maximizes reduction in mp cost
+				self_buff_meat_effects(my_adventures());
+				meatFarm_base_potions(my_adventures());
+				
+				meatFarm_fam_equip();								// Equip default meat farming outfit
+				meatFarm_outfit_embezzlerMod();						// Tweak outfit for embezzler farming
+				use_skill(1, $skill[Drescher's Annoying Noise]);
+				use_skill(1, $skill[Pride of the Puffin]);			// Bump up ML to make embezzlers last a few more rounds each
+				farm_emezzler_copies();								// Fight chain of copied embezzlers and create all wandering embezzlers
+
+				meatFarm_fam_equip();								// Go back to default meat farming outfit				
+				int adv = my_adventures();
 				adventure(adv , $location[Barf Mountain], "olfact_tourist");
 				
 				outfit("adventure pajamas");
@@ -142,8 +147,10 @@ void main()
 				if(item_amount($item[tiny plastic sword]) > 0)		// Just to ensure mafia doesn't try and purchase a tps from the mall
 					cli_execute("mix cherry bomb");
 				if(have_effect($effect[Ode to Booze]) > 0)
-					cli_execute("uneffect Ode to Booze");
+					cli_execute("uneffect Ode to Booze");		
 			}
+			
+			return;
 			
 			if(!property_exists("_dailyDoneZed"))
 			{
