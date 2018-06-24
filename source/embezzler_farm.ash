@@ -9,6 +9,16 @@ void main(int round, monster foe, string page)
 		
 	if(my_familiar() == $familiar[Reanimated Reanimator] && get_property("_badlyRomanticArrows").to_int()==0)
 		visit_url("fight.php?action=skill&whichskill=7168");
+
+	int digitisations = (get_property("_sourceTerminalDigitizeUses").to_int()); 
+	int digitisation_limit = 3;
+	if (digitisations == 0) 
+		use_skill(1,$skill[Digitize]);
+	if (get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= 5 && digitisations < digitisation_limit)
+	{
+		use_skill(1,$skill[Digitize]);
+		print("Digitizing!!", "blue");
+	}
 		
 	else
 		use_skill($skill[Furious Wallop]);
