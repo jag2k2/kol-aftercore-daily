@@ -310,7 +310,6 @@ boolean harvest_wlf_bunker()
 		{
 			print("Turn In! button is not active.  Let's see if we can purchase any of the items from the mall", "blue");
 			foreach key in wlf_proof
-			{
 				if(wlf_html.contains_text(key))
 				{
 					print("WLF Proof is " + key + " and is based on " + wlf_proof[key].sub_item, "blue");
@@ -333,7 +332,6 @@ boolean harvest_wlf_bunker()
 					
 					break;
 				}
-			}
 			
 			wlf_html = visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");  //reload the html to see if any of the buttons were enabled and with an "!"
 			turn_in(wlf_html);
