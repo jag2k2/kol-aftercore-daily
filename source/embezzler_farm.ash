@@ -6,7 +6,7 @@ void main(int round, monster foe, string page)
 	{
 		if(item_amount($item[LOV Enamorang]) > 0 && !property_exists("_enamorangUsed"))
 		{
-			throw_items($item[Spooky Putty sheet], item($item[LOV Enamorang]));
+			throw_items($item[Spooky Putty sheet], $item[LOV Enamorang]);
 			set_property("_enamorangUsed", "1");
 		}
 		else
