@@ -92,7 +92,7 @@ int generate_smithsness()
 }
 
 /*Summon 3 Clip Arts*/
-int generate_clip_art(string clip_string, int sale_price)
+int generate_clip_art(string clip_string)
 {
 	int max_summons_per_day = 3;
 	int summons_used = get_property("_clipartSummons").to_int();
@@ -107,7 +107,7 @@ int generate_clip_art(string clip_string, int sale_price)
 			cli_execute("create " + clip_string);
 		int clip_item_gen = item_amount(clip_item) - clip_item_old;
 		print("Generated " + clip_item_gen + " " + clip_item, "blue");
-		auto_mallsell(clip_item, clip_item_gen, sale_price);
+		//auto_mallsell(clip_item, clip_item_gen, sale_price);
 	}
 	return 0;
 }
@@ -331,7 +331,7 @@ int generate_bacon()
 }
 
 /*Use Time-Spinner*/
-int generate_kardashians(int sale_price)
+int generate_kardashians()
 {
 	int kardashian_gen = 0;
 	item kardashian_shot = $item[shot of kardashian gin];
@@ -360,7 +360,7 @@ int generate_kardashians(int sale_price)
 		
 		kardashian_gen = item_amount(kardashian_shot) - kardashian_old;
 		print("Generated " + kardashian_gen + " kardashians", "blue");
-		auto_mallsell(kardashian_shot, kardashian_gen, sale_price);
+		//auto_mallsell(kardashian_shot, kardashian_gen, sale_price);
 	}
 	return kardashian_gen;
 }
@@ -494,7 +494,7 @@ void generate_amulet_coin()
 void kbg_briefcase_buff()
 {
 	if(get_property("_kgbClicksUsed").to_int() >= 24)
-		print("Already received kgb buffs for the day");
+		print("Already received kgb buffs for the day", "blue");
 	else
 		for x from 1 to 8
 			cli_execute("briefcase buff meat");
