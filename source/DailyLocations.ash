@@ -324,7 +324,7 @@ boolean harvest_wlf_bunker()
 					{
 						print("Need to buy " + subs_toBuy + " " + wlf_proof[key].sub_item + " for less than " + sub_priceLimit, "blue");
 						for x from 1 upto subs_toBuy
-							cli_execute("mall buy " + wlf_proof[key].sub_item + " @ " + sub_priceLimit);
+							cli_execute("mallbuy " + wlf_proof[key].sub_item + " @ " + sub_priceLimit);
 						
 						if(item_amount(wlf_proof[key].sub_item) >= subs_needed)
 							retrieve_item(wlf_proof[key].to_redeem, key);
