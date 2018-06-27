@@ -66,7 +66,7 @@ int harvest_gene_tonics()
 }
 
 /*Harvest Terminal Booze*/
-int harvest_terminal_booze(int sale_price)
+int harvest_terminal_booze()
 {
 	item hacked_gibson = $item[hacked gibson];
 	int max_extrudes_per_day = 3;
@@ -80,7 +80,7 @@ int harvest_terminal_booze(int sale_price)
 			cli_execute("terminal extrude booze");
 		int gibsons_gen = item_amount(hacked_gibson) - old_gibsons;
 		print("Harvested " + gibsons_gen + " gibsons", "blue");
-		auto_mallsell(hacked_gibson, gibsons_gen, sale_price);
+		//auto_mallsell(hacked_gibson, gibsons_gen, sale_price);
 	}
 	return 0;
 }
@@ -260,13 +260,42 @@ boolean harvest_inferno_tower()
 /*Harvest WLF Bunker*/
 boolean harvest_wlf_bunker()
 {
-	boolean harvested = (get_property("_volcanoItemRedeemed").to_boolean() || get_property("_volcanoItemRedeemedAttempted").to_boolean());
+	boolean harvested = (get_property("_volcanoItemRedeemed").to_boolean());
+	
+	record proof_deets{
+			int to_redeem;
+			item sub_item;													// Some proofs need to be made from sub items.  If that is not the case then this should be populated with the proof item itself
+			int sub_per;													
+	};
+	
+	proof_deets [item] wlf_proof;
+
+	wlf_proof[$item[New Age healing crystal]].to_redeem = 5;
+	wlf_proof[$item[New Age healing crystal]].sub_item = $item[New Age healing crystal];
+	wlf_proof[$item[New Age healing crystal]].sub_per = 1;
+	
+	wlf_proof[$item[SMOOCH bottlecap]].to_redeem = 1;
+	wlf_proof[$item[SMOOCH bottlecap]].sub_item = $item[SMOOCH bottlecap];
+	wlf_proof[$item[SMOOCH bottlecap]].sub_per = 1;
+	
+	wlf_proof[$item[gooey lava globs]].to_redeem = 5;
+	wlf_proof[$item[gooey lava globs]].sub_item = $item[gooey lava globs];
+	wlf_proof[$item[gooey lava globs]].sub_per = 1;
+	
+	wlf_proof[$item[smooth velvet bra]].to_redeem = 3;
+	wlf_proof[$item[smooth velvet bra]].sub_item = $item[unsmoothed velvet];
+	wlf_proof[$item[smooth velvet bra]].sub_per = 3;
+	
+	wlf_proof[$item[SMOOCH bracers]].to_redeem = 3;
+	wlf_proof[$item[SMOOCH bracers]].sub_item = $item[superheated metal];
+	wlf_proof[$item[SMOOCH bracers]].sub_per = 5;
+	
 	boolean turn_in(string wlf_page)
 	{
 		int choice_index = wlf_page.index_of("value='Turn In!'") - 34;  	//There is an exclamation mark when the "Turn In" button is enabled.  In that situation the value of the choice is 34 characters behind the substring "value='Turn In!"
 		if(choice_index < 0)
 			return false;
-		run_choice(wlf_page.char_at(choice_index).to_int());		//This actually redeems times for a volcoino
+		run_choice(wlf_page.char_at(choice_index).to_int());				//This actually redeems times for a volcoino
 		return true;
 	}
 
@@ -274,23 +303,38 @@ boolean harvest_wlf_bunker()
 		print("WLF Bunker already harvested", "blue");
 	else
 	{
+		int volcoino_worth = (mall_price($item[one-day ticket to That 70s Volcano])*0.8/3).to_int();	// Take % of the current ticket price and divide by 3	
 		string wlf_html = visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");
+		
 		if(!turn_in(wlf_html))
 		{
-			if(wlf_html.contains_text("New Age healing crystal"))
-				retrieve_item(5, $item[New Age healing crystal]);
-			else if(wlf_html.contains_text("SMOOCH bottlecap"))
-				retrieve_item(1, $item[SMOOCH bottlecap]);
-			else if(wlf_html.contains_text("gooey lava globs"))
-				retrieve_item(5, $item[gooey lava globs]);
-			else if(wlf_html.contains_text("smooth velvet bra"))
-				retrieve_item(3, $item[smooth velvet bra]);
-			else if(wlf_html.contains_text("SMOOCH bracers"))
-				retrieve_item(3, $item[SMOOCH bracers]);
-				
-		wlf_html = visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");  //reload the html to see if any of the buttons were enabled and with an "!"
-		turn_in(wlf_html);
-		set_property("_volcanoItemRedeemedAttempted", "true");
+			print("Turn In! button is not active.  Let's see if we can purchase any of the items from the mall", "blue");
+			foreach key in wlf_proof
+				if(wlf_html.contains_text(key))
+				{
+					print("WLF Proof is " + key + " and is based on " + wlf_proof[key].sub_item, "blue");
+					
+					int subs_needed = wlf_proof[key].to_redeem * wlf_proof[key].sub_per;
+					int subs_toBuy = subs_needed - item_amount(wlf_proof[key].sub_item);
+					int sub_priceLimit = volcoino_worth / subs_needed;
+					
+					if(mall_price(wlf_proof[key].sub_item) > sub_priceLimit)
+						print("WLF Proof is not worth buying", "blue");
+					else
+					{
+						print("Need to buy " + subs_toBuy + " " + wlf_proof[key].sub_item + " for less than " + sub_priceLimit, "blue");
+						for x from 1 upto subs_toBuy
+							cli_execute("mallbuy " + wlf_proof[key].sub_item + " @ " + sub_priceLimit);
+						
+						if(item_amount(wlf_proof[key].sub_item) >= subs_needed)
+							retrieve_item(wlf_proof[key].to_redeem, key);
+					}
+					
+					break;
+				}
+			
+			wlf_html = visit_url("place.php?whichplace=airport_hot&action=airport4_questhub");  //reload the html to see if any of the buttons were enabled and with an "!"
+			turn_in(wlf_html);
 		}
 	}
 	return false;
