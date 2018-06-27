@@ -1,0 +1,5 @@
+cold hi mein	5000
+hot hi mein	5000
+sleazy hi mein	5000
+spooky hi mein	5000
+stinky hi mein	5000
