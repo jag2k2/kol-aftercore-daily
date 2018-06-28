@@ -241,7 +241,7 @@ void nom_noms(string menu, boolean fill_up)
 			to_buy = to_nom;
 			if(menu == "perfect booze")
 				to_buy -= item_amount($item[perfect ice cube]);
-			for x from 1 upto to_nom
+			for x from 1 upto to_buy
 				cli_execute("mallbuy " + cheapest + " @ " + nom[cheapest].limit);			
 			retrieve_item(to_nom, cheapest);								// Retrieve the cheapest of that many consumables
 			consumed += consume(to_nom, cheapest);							// And consume those too!
