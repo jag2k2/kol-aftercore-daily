@@ -209,8 +209,8 @@ void nom_noms(string menu, boolean fill_up)
 			}
 			
 			to_nom = organ_room(nom_type)/nom_size;							// Calc how many more consumables we can consume today
-			if(menu == "food")
-				spins_avail = nom_spinsAvail($item[none]);					// If the menu type is food then get the number of spins avail
+			if(nom_type == "food")
+				spins_avail = nom_spinsAvail($item[none]);					// If the nom_type type is food then get the number of spins avail
 			if(to_nom > 0 && nom[key].amount > 0)							// If there is room in the appropriate organ for 1 or more of the consumable and there is atleast one of these consumables in inventory
 			{
 				to_nom -= spins_avail;										// Reduce the number of consumables to eat by the number of spins available (coerce to a minimum of 1).
@@ -230,7 +230,7 @@ void nom_noms(string menu, boolean fill_up)
 		}
 		
 		to_nom = organ_room(nom_type)/nom_size;								// After consuming from inventory, calc how many more consumables of this type and size we can consume today
-		if(menu == "food")		
+		if(nom_type == "food")		
 			spins_avail = nom_spinsAvail($item[none]);						// See how many spins we have left in the time spinner regardless of consumable
 		if(to_nom > 0)														// If still room to eat 1 or more of this type of consumable		
 		{
