@@ -73,43 +73,43 @@ void nom_noms(string menu, boolean fill_up)
 	switch(menu)
 	{
 		case "hi mein":
-			print("Will eat hi mein", "blue");
+			print("Attempting to eat hi mein", "blue");
 			nom_size = 5;
 			nom_type = "food";
 			file_to_map("/kol-aftercore-daily/data/Food_HiMein.txt", consumable);
 			break;
 		case "jumping horseradish":
-			print("Will eat jumping horseradish", "blue");
+			print("Attempting to eat jumping horseradish", "blue");
 			nom_size = 1;
 			nom_type = "food";
 			file_to_map("/kol-aftercore-daily/data/Food_1SizeMeatBuff.txt", consumable);
 			break;
 		case "perfect booze":
-			print("Will drink perfect booze without getting drunk", "blue");
+			print("Attempting to drink perfect booze without getting drunk", "blue");
 			nom_size = 3;
 			nom_type = "booze";
 			file_to_map("/kol-aftercore-daily/data/Booze_Perfect.txt", consumable);
 			break;
 		case "1-size booze":
-			print("Will drink generic 1-shot drink without getting drunk", "blue");
+			print("Attempting to drink generic 1-shot drink without getting drunk", "blue");
 			nom_size = 1;
 			nom_type = "booze";
 			file_to_map("/kol-aftercore-daily/data/Booze_1SizeGeneric.txt", consumable);
 			break;
 		case "Ambitious Turkey":
-			print("Will drink Ambitious Turkey without getting drunk", "blue");
+			print("Attempting to drink Ambitious Turkey without getting drunk", "blue");
 			nom_size = 1;
 			nom_type = "booze";
 			file_to_map("/kol-aftercore-daily/data/Booze_1SizeMeatBuff.txt", consumable);
 			break;
 		case "Cold One":
-			print("Will drink Cold One without getting drunk", "blue");
+			print("Attempting to drink Cold One without getting drunk", "blue");
 			nom_size = 1;
 			nom_type = "booze";
 			file_to_map("/kol-aftercore-daily/data/Booze_1SizeEpicGen.txt", consumable);
 			break;
 		case "4-size spleen":
-			print("Will chew 4-size spleen items", "blue");
+			print("Attempting to chew 4-size spleen items", "blue");
 			nom_size = 4;
 			nom_type = "spleen item";
 			file_to_map("/kol-aftercore-daily/data/Spleen_4SizeGood.txt", consumable);
@@ -117,7 +117,7 @@ void nom_noms(string menu, boolean fill_up)
 		case "3-size spleen":
 			nom_size = 3;
 			nom_type = "spleen item";
-			print("Will chew 3-size spleens items", "blue");
+			print("Attempting to chew 3-size spleens items", "blue");
 			file_to_map("/kol-aftercore-daily/data/Spleen_3SizeGood.txt", consumable);
 			break;
 		default:
@@ -201,7 +201,7 @@ void nom_noms(string menu, boolean fill_up)
 		
 		foreach key in nom													// For each item in this map
 		{
-			print(key + " " + nom[key].price + " " + nom[key].amount + " " + item_type(key), "blue");
+			print(key + ": Found " + nom[key].amount + " in inventory. Could buy from mall for " + nom[key].price + " (price limit " + nom[key].limit + ")", "blue");
 			if(nom[key].price < price)										// See if it s the mall cheapest just in case we need to buy some
 			{
 				cheapest = key;
