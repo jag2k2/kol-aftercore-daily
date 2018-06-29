@@ -17,9 +17,9 @@ string barf_caf (int round, monster opp, string text)
 	
 	if(opp == $monster[horrible tourist family])
 	{
-		if(round ==1 && get_property("_macrometeoriteUses").to_int() < 10)
+		if(get_property("_macrometeoriteUses").to_int() < 10)
 		{
-			print("Casting Macrometeroite on horrible tourist family!", "blue");
+			print("Casting Macrometeorite on horrible tourist family!  They are horrible.", "blue");
 			return "skill Macrometeorite";
 		}
 	}
