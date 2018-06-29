@@ -32,7 +32,7 @@ void harvest_Chateau_Juice_Bar()
 }
 
 /*Harvest the Tea Tree*/
-int harvest_tea_tree(int sale_price)
+void harvest_tea_tree()
 {
 	item royal_tea = $item[cuppa Royal tea];
 	boolean harvested = get_property("_pottedTeaTreeUsed").to_boolean();
@@ -42,9 +42,8 @@ int harvest_tea_tree(int sale_price)
 	{
 		cli_execute("teatree cuppa Royal tea");
 		print ("Harvested tea tree", "blue");
-		auto_mallsell(royal_tea, 1, sale_price);
+		//auto_mallsell(royal_tea, 1, sale_price);
 	}
-	return 0;
 }
 
 /*Harvest Gene Tonics*/

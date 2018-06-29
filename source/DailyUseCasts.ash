@@ -366,7 +366,7 @@ int generate_kardashians()
 }
 	
 /*Use Corked Genie Bottle*/
-int generate_pocket_wishes(int sale_price)
+int generate_pocket_wishes()
 {
 	item pocket_wish = $item[pocket wish];
 	int wishes_used = get_property("_genieWishesUsed").to_int();
@@ -381,7 +381,7 @@ int generate_pocket_wishes(int sale_price)
 		}
 	int wishes_gen = item_amount(pocket_wish) - wishes_old;
 	print("Generated " + wishes_gen + " pocket wishes", "blue");
-	auto_mallsell(pocket_wish, wishes_gen, 49999);
+	//auto_mallsell(pocket_wish, wishes_gen, 49999);
 	}
 	return 0;
 }
