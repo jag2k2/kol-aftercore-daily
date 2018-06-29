@@ -19,7 +19,7 @@ void main(int round, monster foe, string page)
 	
 	int digitizeUses = get_property("_sourceTerminalDigitizeUses").to_int();
 	if(digitizeUses >= 3)
-		print("Already used 3 digitizes today");			// debug string
+		print("Already used 3 digitizes today", "blue");													
 	else if (digitizeUses == 0 || get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= 5)
 	{
 		use_skill(1,$skill[Digitize]);
@@ -39,6 +39,14 @@ void main(int round, monster foe, string page)
 	{
 		throw_item($item[unfinished ice sculpture]);
 		set_property("_sculptureCopyMade", "ture");
+	}
+	
+	if(get_property("_meteorShowerUses").to_int() >= 5)
+		print("Already used 5 Meteor Showers today", "blue");
+	else if(my_familiar()==$familiar[Robortender])
+	{
+		print("Casting Meteor Shower!!", "blue");
+		use_skill(1, $skill[Meteor Shower]);
 	}
 	
 	else
