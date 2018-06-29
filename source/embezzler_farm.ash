@@ -41,9 +41,7 @@ void main(int round, monster foe, string page)
 		set_property("_sculptureCopyMade", "ture");
 	}
 	
-	if(get_property("_meteorShowerUses").to_int() >= 5)
-		print("Already used 5 Meteor Showers today", "blue");
-	else if(my_familiar()==$familiar[Robortender])
+	if(my_familiar()==$familiar[Robortender] && have_effect($effect[Meteor Showered])==0 && get_property("_meteorShowerUses").to_int() < 5)
 	{
 		print("Casting Meteor Shower!!", "blue");
 		use_skill(1, $skill[Meteor Shower]);
