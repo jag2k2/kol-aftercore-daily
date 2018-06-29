@@ -22,7 +22,7 @@ void daily_chores()
 	generate_cocktail_ingredients();
 	generate_sugar_sheets();
 	generate_smithsness();
-	generate_clip_art("box of Familiar Jacks", 11999);
+	generate_clip_art("box of Familiar Jacks");
 	generate_perfect_ice_cubes();
 	generate_army_cards();
 	generate_confiscated_things();
@@ -37,10 +37,10 @@ void daily_chores()
 	cheat_deck_every_card("Rope");
 	generate_bacon();
 	generate_kardashians();
-	generate_pocket_wishes(49999);
+	generate_pocket_wishes();
 	get_clovers();
 	harvest_Chateau_Juice_Bar();
-	harvest_tea_tree(99999);
+	harvest_tea_tree();
 	harvest_gene_tonics();
 	harvest_terminal_booze();
 	harvest_terminal_buffs();
@@ -98,11 +98,12 @@ void main()
 			else
 			{
 				daily_chores();
-	
+
+				nom_noms("hi mein", true);							// Do this before free fights to get extra hunger space from pantsgiving
+				
 				// todo: want to make a free fight outfit function.  right now that outfit is equiped inside the fight penguin function
 				fight_freely();
 
-				nom_noms("hi mein", true);				
 				nom_noms("jumping horseradish", false);	
 				nom_noms("perfect booze", true);
 				nom_noms("Ambitious Turkey", false);
@@ -112,19 +113,20 @@ void main()
 
 				meat_farm_prep();
 
+				// todo:  want to bubble up outfit function that maximizes reduction in mp cost
+				self_buff_meat_effects(my_adventures());
+				meatFarm_base_potions(my_adventures());
+				
 				// todo: want to make a max mp function to get more value out of these max mp restores
+				outfit("max mp");
 				generate_resolutions(100);
 				once_daily_meatBuffs();								// LOVE Tunnel restores all MP
 				generate_resolutions(100);
 				use_license();										// Get 5 adv and restore all MP
 				generate_resolutions(100);
 				use_express_card();									// Extend all buffs by 5 and restore all MP
-				generate_resolutions(50);
-				
-				// todo:  want to bubble up outfit function that maximizes reduction in mp cost
-				self_buff_meat_effects(my_adventures());
-				meatFarm_base_potions(my_adventures());
-				
+				generate_resolutions(50);	
+
 				meatFarm_fam_equip();								// Equip default meat farming outfit
 				meatFarm_outfit_embezzlerMod();						// Tweak outfit for embezzler farming
 				use_skill(1, $skill[Drescher's Annoying Noise]);
@@ -149,8 +151,6 @@ void main()
 				if(have_effect($effect[Ode to Booze]) > 0)
 					cli_execute("uneffect Ode to Booze");		
 			}
-			
-			return;
 			
 			if(!property_exists("_dailyDoneZed"))
 			{
