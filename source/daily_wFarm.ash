@@ -5,13 +5,25 @@ import DailyFreeFights.ash
 import MeatFarmDinsey.ash
 import DailyNoms.ash
 
-string olfact_tourist(int round, monster opp, string text) 
+string barf_caf (int round, monster opp, string text) 
 {
 	if(opp == $monster[garbage tourist])
+	{
 		if(round == 1 && have_effect($effect[On the Trail]) < 1)
 			return "skill transcendent olfaction";
-		if(round > 1 && have_effect($effect[On the Trail]) == 40)
+		else if(round > 1 && have_effect($effect[On the Trail]) == 40)
 			round -= 1;
+	}
+	
+	if(opp == $monster[horrible tourist family])
+	{
+		if(get_property("_macrometeoriteUses").to_int() < 10)
+		{
+			print("Casting Macrometeorite on horrible tourist family!  They are horrible.", "blue");
+			return "skill Macrometeorite";
+		}
+	}
+	
 	return get_ccs_action(round);
 }
 
@@ -135,7 +147,7 @@ void main()
 
 				meatFarm_fam_equip();								// Go back to default meat farming outfit				
 				int adv = my_adventures();
-				adventure(adv , $location[Barf Mountain], "olfact_tourist");
+				adventure(adv , $location[Barf Mountain], "barf_caf");
 				
 				outfit("adventure pajamas");
 				use_familiar($familiar[Trick-or-Treating Tot]);
