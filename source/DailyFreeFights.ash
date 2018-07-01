@@ -107,22 +107,21 @@ int free_fight_eldritch_skill()
 }
 
 /*Combat filter functions for deep machine fights*/
-string insert_use_abstraction(int round, monster opp, string text)
+string abstractions(int round, monster opp, string text)
 {
 	if (round == 1)
 	{
-		if(opp==$monster[Perceiver of Sensations])
+		if(opp==$monster[Perceiver of Sensations] && item_amount($item[abstraction: thought])>0)
 			return "item abstraction: thought";
-	
-		else if(opp==$monster[Thinker of Thoughts])
+		
+		else if(opp==$monster[Thinker of Thoughts] && item_amount($item[abstraction: action])>0)
 			return "item abstraction: action";
 
-		else if(opp==$monster[Performer of Actions])
+		else if(opp==$monster[Performer of Actions] && item_amount($item[abstraction: sensation])>0)
 			return "item abstraction: sensation";
 	}
-	if(round > 1)
-		round = round - 1;
-	return get_ccs_action(round);
+
+	return "skill saucestorm";
 }
 
 /*Free Deep Machine Tunnel Fights*/
@@ -131,7 +130,7 @@ int free_fight_machine_tunnel()
 	use_familiar($familiar[Machine Elf]);
 	while(get_property("_machineTunnelsAdv").to_int() < 5)
 	{
-		adv1($location[The Deep Machine Tunnels], -1, "insert_use_abstraction");
+		adv1($location[The Deep Machine Tunnels], -1, "abstractions");
 		print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
 	}
 	print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
