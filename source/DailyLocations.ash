@@ -539,3 +539,30 @@ boolean get_dark_horse()
 	}
 	return false;
 }
+
+/* Jump into An Awesome Ball Pit */
+void get_ballPit_buff()
+{
+	if(get_property("_ballpit").to_boolean())
+		print("Already jumped in the ball pit today", "blue");
+	else
+		cli_execute("ballpit");
+}
+
+/* Look high in your telescope */
+void get_telescope_buff()
+{
+	if(get_property("telescopeLookedHigh").to_boolean())
+		print("Already looked high with the telescope today", "blue");
+	else
+		cli_execute("telescope high");
+}
+
+/* Get monorail buff */
+void get_monorail_buff()
+{
+	if(get_property("_lyleFavored").to_boolean())
+		print("Already favored by Lyle today", "blue");
+	else
+		cli_execute("monorail buff");
+}
