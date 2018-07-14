@@ -90,7 +90,7 @@ void nom_noms(string menu, boolean fill_up)
 			nom_type = "booze";
 			file_to_map("/kol-aftercore-daily/data/Booze_Perfect.txt", consumable);
 			break;
-		case "1-size booze":
+		case "1-size awesome booze":
 			print("Attempting to drink generic 1-shot drink without getting drunk", "blue");
 			nom_size = 1;
 			nom_type = "booze";
@@ -102,7 +102,7 @@ void nom_noms(string menu, boolean fill_up)
 			nom_type = "booze";
 			file_to_map("/kol-aftercore-daily/data/Booze_1SizeMeatBuff.txt", consumable);
 			break;
-		case "Cold One":
+		case "1-size epic booze":
 			print("Attempting to drink Cold One without getting drunk", "blue");
 			nom_size = 1;
 			nom_type = "booze";
