@@ -82,6 +82,13 @@ void meat_farm_prep()
 	get_dark_horse();
 	kbg_briefcase_buff();	
 }
+
+void free_fight_prep()
+{
+	get_ballPit_buff();
+	get_telescope_buff();
+	get_monorail_buff();
+}
 	
 void fight_freely()
 {
@@ -90,11 +97,11 @@ void fight_freely()
 	use_familiar($familiar[Golden Monkey]);
 	equip($slot[weapon], $item[Meat Tenderizer is Murder]);
 	free_fight_snojo();
-	free_fight_bricko();
+	//free_fight_bricko();
 	free_fight_witchess();
 	free_fight_eldritch_tent();
 	free_fight_eldritch_skill();
-	free_fight_machine_tunnel();
+	//free_fight_machine_tunnel();
 }
 
 void main()
@@ -108,18 +115,20 @@ void main()
 			if(my_inebriety() > inebriety_limit())
 				print("jag2k2 is too drunk to adventure anymore", "blue");
 			else
-			{
+			{	
+				/*
 				daily_chores();
 
 				nom_noms("hi mein", true);							// Do this before free fights to get extra hunger space from pantsgiving
 				
 				// todo: want to make a free fight outfit function.  right now that outfit is equiped inside the fight penguin function
+				free_fight_prep();
 				fight_freely();
 
 				nom_noms("jumping horseradish", false);	
 				nom_noms("perfect booze", true);
 				nom_noms("Ambitious Turkey", false);
-				nom_noms("Cold One", false);
+				nom_noms("1-size epic booze", false);
 				nom_noms("4-size spleen", true);
 				nom_noms("3-size spleen", false);
 
@@ -147,21 +156,32 @@ void main()
 
 				meatFarm_fam_equip();								// Go back to default meat farming outfit				
 				int adv = my_adventures();
-				adventure(adv , $location[Barf Mountain], "barf_caf");
+				for x from 1 to adv
+				{
+					if((reverse_numberology(0,0) contains 69) && get_property("_universeCalculated").to_int() < 3)
+						cli_execute("numberology 69");
+					
+					adventure(1 , $location[Barf Mountain], "barf_caf");
+					print("Finished " + x + " of " + adv, "blue");
+		
+				}
 				
 				outfit("adventure pajamas");
-				use_familiar($familiar[Trick-or-Treating Tot]);
-				
+								
 				if(have_effect($effect[Fat Leon's Phat Loot Lyric]) > 0)
 					cli_execute("uneffect Fat Leon's Phat Loot Lyric");
 				if(have_effect($effect[Ode to Booze]) < 10)
 					use_skill(1, $skill[The Ode to Booze]);
 				
+				use_familiar($familiar[Stooper]);
+				nom_noms("1-size epic booze", false);
+				
 				overdrink(1, $item[cherry bomb]);
 				if(item_amount($item[tiny plastic sword]) > 0)		// Just to ensure mafia doesn't try and purchase a tps from the mall
 					cli_execute("mix cherry bomb");
 				if(have_effect($effect[Ode to Booze]) > 0)
-					cli_execute("uneffect Ode to Booze");		
+					cli_execute("uneffect Ode to Booze");
+				use_familiar($familiar[Trick-or-Treating Tot]);     */	
 			}
 			
 			if(!property_exists("_dailyDoneZed"))
@@ -186,7 +206,7 @@ void main()
 				meat_farm_cast_buffs(500);
 				nom_noms("hi mein", true);
 				nom_noms("perfect booze", true);
-				nom_noms("1-size booze", true);
+				nom_noms("1-size awesome booze", true);
 				nom_noms("4-size spleen", true);
 				nom_noms("3-size spleen", true);
 				outfit("volcano mining");
@@ -212,7 +232,7 @@ void main()
 				meat_farm_cast_buffs(500);
 				nom_noms("hi mein", true);
 				nom_noms("perfect booze", true);
-				nom_noms("1-size booze", true);
+				nom_noms("1-size awesome booze", true);
 				nom_noms("4-size spleen", true);
 				nom_noms("3-size spleen", true);
 				outfit("volcano mining");
