@@ -522,3 +522,59 @@ void use_express_card()
 	else
 		use(1, $item[Platinum Yendorian Express Card]);
 }
+
+/* Have a ChibiChat */
+void use_ChibiChat()
+{
+	void activate_chibi()
+	{
+		string chibi_html = visit_url("inv_use.php?pwd&whichitem=5925");				// Try to use ChibiBuddy(Off)
+		if(contains_text(chibi_html, "ChibiBuddy"))										// If html contain text "ChibiBuddy" then chibi was off (item exists) and it needs to be activated
+		{
+			int activate_index = chibi_html.index_of("value=\"turn on the ChibiBuddy")-35;
+			if(activate_index > 0)
+				run_choice(chibi_html.char_at(activate_index).to_int());
+			else
+				print("ChibiBuddy needs to be activated but can't find the activate choice", "blue");
+		}
+	}
+
+	boolean attempt_ChibiChat()
+	{
+		string chibi_html = visit_url("inv_use.php?pwd&whichitem=5908");				// Try to use ChibiBuddy(On)
+		if(contains_text(chibi_html, "ChibiBuddy"))										// If html contains text "ChibiBuddy" then chibi was on (item exists) and we can attempt a chibichat
+		{
+			int chat_index = chibi_html.index_of("value=\"Have a ChibiChat")-35;		// Find index of chibichat choice
+			int leave_index = chibi_html.index_of("value=\"Put your ChibiBuddy")-35;	// Find index of chibichat 
+			if(chat_index > 0)
+			{
+				print("Found and running ChibiChat choice", "blue");
+				run_choice(chibi_html.char_at(chat_index).to_int());
+				return true;
+			}
+			else
+			{
+				print("Could not find chat choice.  Attempting to run leave choice", "blue");
+				run_choice(chibi_html.char_at(leave_index).to_int());
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	if(property_exists("_chibiChatted"))
+		print("Already chatted with your ChibiBuddy today", "blue");
+	else
+	{
+		for x from 1 to 2
+		{
+			activate_chibi();															// Activate chibi if necessary
+			if(attempt_ChibiChat())
+			{
+				set_property("_chibiChatted", "true");
+				return;
+			}
+		}
+		print("Unable to run ChibiChat", "blue");
+	}
+}
