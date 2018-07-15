@@ -150,6 +150,8 @@ void main()
 				
 				// todo: want to make a max mp function to get more value out of these max mp restores
 				outfit("max mp");
+				nun_multiRestore();
+				use_skill(10, $skill[Summon BRICKOs]);
 				generate_resolutions(100);
 				once_daily_meatBuffs();								// LOVE Tunnel restores all MP
 				generate_resolutions(100);
