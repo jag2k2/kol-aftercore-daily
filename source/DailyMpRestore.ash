@@ -40,7 +40,7 @@ boolean use_oscus_soda()
 	}
 }
 
-/*Get a nun massage*/
+/* Get a nun massage */
 boolean get_nun_massage()
 {
 	if(get_property("sidequestNunsCompleted")!="fratboy" || get_property("warProgress")!="finished")
@@ -62,6 +62,15 @@ boolean get_nun_massage()
 			return true;
 		}
 	}
+}
+
+/* Use nuns to retore close to maxmp */
+void nun_multiRestore()
+{
+	int nun_visits = min(3, (my_maxmp() - my_mp())/1000) - get_property("nunsVisits").to_int();
+	print("Could visit nun " + nun_visits + " times", "blue");
+	for x from 1 to nun_visits
+		get_nun_massage();
 }
 
 /*Use Grogpagne*/
