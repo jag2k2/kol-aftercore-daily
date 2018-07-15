@@ -17,7 +17,7 @@ string barf_caf (int round, monster opp, string text)
 	
 	if(opp == $monster[horrible tourist family])
 	{
-		if(get_property("_macrometeoriteUses").to_int() < 10)
+		if(get_property("_macrometeoriteUses").to_int() < 10 && have_skill($skill[Macrometeorite]))
 		{
 			print("Casting Macrometeorite on horrible tourist family!  They are horrible.", "blue");
 			return "skill Macrometeorite";
@@ -80,7 +80,17 @@ void meat_farm_prep()
 	generate_amulet_coin();
 	meatFarm_create_copiers();
 	get_dark_horse();
-	kbg_briefcase_buff();	
+	kbg_briefcase_buff();
+	
+	if(have_effect($effect[On the Trail]) != 0)
+	{
+		if(get_property("olfactedMonster")=="garbage tourist")
+			print("Olfacted Monster is garbage tourist. Leave it.", "blue");
+		else
+			cli_execute("uneffect On the Trail");
+	}
+	else
+		print("On the Trail is not active", "blue");	
 }
 
 void free_fight_prep()
