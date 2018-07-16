@@ -531,7 +531,7 @@ void use_ChibiChat()
 		string chibi_html = visit_url("inv_use.php?pwd&whichitem=5925");				// Try to use ChibiBuddy(Off)
 		if(contains_text(chibi_html, "ChibiBuddy"))										// If html contain text "ChibiBuddy" then chibi was off (item exists) and it needs to be activated
 		{
-			int activate_index = chibi_html.index_of("value=\"turn on the ChibiBuddy")-35;
+			int activate_index = chibi_html.index_of("value=\"turn on the ChibiBuddy")-100;
 			if(activate_index > 0)
 				run_choice(chibi_html.char_at(activate_index).to_int());
 			else
