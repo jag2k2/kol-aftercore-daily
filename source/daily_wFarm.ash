@@ -81,16 +81,8 @@ void meat_farm_prep()
 	meatFarm_create_copiers();
 	get_dark_horse();
 	kbg_briefcase_buff();
-	
-	if(have_effect($effect[On the Trail]) != 0)
-	{
-		if(get_property("olfactedMonster")=="garbage tourist")
-			print("Olfacted Monster is garbage tourist. Leave it.", "blue");
-		else
-			cli_execute("uneffect On the Trail");
-	}
-	else
-		print("On the Trail is not active", "blue");	
+	check_OnTheTrail();
+	prime_robortender();
 }
 
 void free_fight_prep()
@@ -102,10 +94,7 @@ void free_fight_prep()
 	
 void fight_freely()
 {
-	set_auto_attack(0);
 	free_fight_deck_penguin();
-	use_familiar($familiar[Golden Monkey]);
-	equip($slot[weapon], $item[Meat Tenderizer is Murder]);
 	free_fight_snojo();
 	//free_fight_bricko();
 	free_fight_witchess();
@@ -127,12 +116,13 @@ void main()
 			else
 			{	
 				/*
+				set_auto_attack(0);
 				daily_chores();
 
 				nom_noms("hi mein", true);							// Do this before free fights to get extra hunger space from pantsgiving
-				
-				// todo: want to make a free fight outfit function.  right now that outfit is equiped inside the fight penguin function
+
 				free_fight_prep();
+				outfit_manager("Free Fight");
 				fight_freely();
 
 				nom_noms("jumping horseradish", false);	
@@ -144,11 +134,13 @@ void main()
 
 				meat_farm_prep();
 
-				// todo:  want to bubble up outfit function that maximizes reduction in mp cost
+				outfit_manager("Min MP Cost");
 				self_buff_meat_effects(my_adventures());
 				meatFarm_base_potions(my_adventures());
+				use_skill(1, $skill[Drescher's Annoying Noise]);
+				use_skill(1, $skill[Pride of the Puffin]);			// Bump up ML to make embezzlers last a few more rounds each
 				
-				// todo: want to make a max mp function to get more value out of these max mp restores
+				outfit_manager("Max MP");
 				outfit("max mp");
 				nun_multiRestore();
 				use_skill(10, $skill[Summon BRICKOs]);
@@ -160,13 +152,10 @@ void main()
 				use_express_card();									// Extend all buffs by 5 and restore all MP
 				generate_resolutions(50);	
 
-				meatFarm_fam_equip();								// Equip default meat farming outfit
-				meatFarm_outfit_embezzlerMod();						// Tweak outfit for embezzler farming
-				use_skill(1, $skill[Drescher's Annoying Noise]);
-				use_skill(1, $skill[Pride of the Puffin]);			// Bump up ML to make embezzlers last a few more rounds each
+				outfit_manager("Embezzler Farm");					// Equip outfit for Embezzler Farming
 				farm_emezzler_copies();								// Fight chain of copied embezzlers and create all wandering embezzlers
 
-				meatFarm_fam_equip();								// Go back to default meat farming outfit				
+				outfit_manager("BM Farm");							// Go back to default meat farming outfit				
 				int adv = my_adventures();
 				for x from 1 to adv
 				{
@@ -177,9 +166,7 @@ void main()
 					print("Finished " + x + " of " + adv, "blue");
 		
 				}
-				
-				outfit("adventure pajamas");
-								
+					
 				if(have_effect($effect[Fat Leon's Phat Loot Lyric]) > 0)
 					cli_execute("uneffect Fat Leon's Phat Loot Lyric");
 				if(have_effect($effect[Ode to Booze]) < 10)
@@ -193,7 +180,7 @@ void main()
 					cli_execute("mix cherry bomb");
 				if(have_effect($effect[Ode to Booze]) > 0)
 					cli_execute("uneffect Ode to Booze");
-				use_familiar($familiar[Trick-or-Treating Tot]);     */	
+				outfit_manager("PJs");     */	
 			}
 			
 			if(!property_exists("_dailyDoneZed"))
