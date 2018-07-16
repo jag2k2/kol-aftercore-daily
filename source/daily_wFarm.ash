@@ -137,13 +137,12 @@ void main()
 				meat_farm_prep();
 
 				outfit_manager("Min MP Cost");
-				self_buff_meat_effects(my_adventures());
-				meatFarm_base_potions(my_adventures());
 				use_skill(1, $skill[Drescher's Annoying Noise]);
 				use_skill(1, $skill[Pride of the Puffin]);			// Bump up ML to make embezzlers last a few more rounds each
+				self_buff_meat_effects(my_adventures());
+				meatFarm_base_potions(my_adventures());
 				
 				outfit_manager("Max MP");
-				outfit("max mp");
 				nun_multiRestore();
 				use_skill(10, $skill[Summon BRICKOs]);
 				generate_resolutions(100);
