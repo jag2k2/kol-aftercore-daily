@@ -81,30 +81,8 @@ void meat_farm_prep()
 	meatFarm_create_copiers();
 	get_dark_horse();
 	kbg_briefcase_buff();
-	
-	if(have_effect($effect[On the Trail]) != 0)
-	{
-		if(get_property("olfactedMonster")=="garbage tourist")
-			print("Olfacted Monster is garbage tourist. Leave it.", "blue");
-		else
-			cli_execute("uneffect On the Trail");
-	}
-	else
-		print("On the Trail is not active", "blue");
-
-	use_familiar($familiar[robortender]);
-	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam(Robortender)]"))
-		print("Robortender already has meat farming mummery costume", "blue");
-	else
-		cli_execute("mummery meat");
-	
-	if(get_property("_roboDrinks").contains_text("drive-by shooting"))
-		print("Robortender already boozed up for meat farming", "blue");
-	else
-	{
-		retrieve_item(1, $item[drive-by shooting]);
-		cli_execute("robo drive-by shooting");
-	}
+	check_OnTheTrail();
+	prime_robortender();
 }
 
 void free_fight_prep()
