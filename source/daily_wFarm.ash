@@ -162,10 +162,19 @@ void main()
 				{
 					if((reverse_numberology(0,0) contains 69) && get_property("_universeCalculated").to_int() < 3)
 						cli_execute("numberology 69");
-					
+								
+					if(get_counters("enamorang",0,0)=="Enamorang Monster")					// Switch to Reanimator (so that consult script will wink) when enamorang is about to expire
+					{
+						use_familiar($familiar[Reanimated Reanimator]);						
+						if(familiar_equipment(my_familiar()) != $item[lucky Tam O'Shanter])	
+							equip($slot[familiar], $item[lucky Tam O'Shanter]);
+					}
+								
 					adventure(1 , $location[Barf Mountain], "barf_caf");
+					
+					if(my_familiar()!= $familiar[robortender])
+						use_familiar($familiar[robortender]);								//  If robortender was switched out for reanimation (or any other reaseon), switch back
 					print("Finished " + x + " of " + adv, "blue");
-		
 				}
 					
 				if(have_effect($effect[Fat Leon's Phat Loot Lyric]) > 0)
