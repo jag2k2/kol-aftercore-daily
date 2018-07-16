@@ -1,7 +1,7 @@
 /*Daily Free Fights*/
 
 /*Fight the Penguin from Deck of Every Card*/
-int free_fight_deck_penguin()
+void free_fight_deck_penguin()
 {
 	string card_name = "Suit Warehouse Discount Card";
 	int fishhead_gen = 0;
@@ -12,20 +12,19 @@ int free_fight_deck_penguin()
 		print("Deck of Every Card has been used 15 times already today", "blue");
 	else
 	{
-		use_familiar($familiar[robortender]);
-		item fam_equip = familiar_equipment(my_familiar());
-		if(fam_equip != $item[toggle switch (Bartend)] || fam_equip != $item[toggle switch (Bounce)])
-		{	
-			if(item_amount($item[toggle switch (Bartend)]) > 0)
-				equip( $slot[familiar], $item[toggle switch (Bartend)]);
-			else if(item_amount($item[toggle switch (Bounce)]) > 0)
-				equip( $slot[familiar], $item[toggle switch (Bounce)]);
-		}
+		familiar original_fam = my_familiar();
+		item original_weapon = equipped_item($slot[weapon]);
 		
-		boolean switched = (cli_execute("fold toggle switch (Bartend)"));			// If switch is already set to "bartend" this function will just return false
-		if(item_amount($item[stinky cheese eye]) == 0 && equipped_item($slot[acc1]) != $item[stinky cheese eye] && equipped_item($slot[acc2]) != $item[stinky cheese eye] && equipped_item($slot[acc3]) != $item[stinky cheese eye])
-				cli_execute("fold stinky cheese eye");
-		outfit("Free Fight");
+		use_familiar($familiar[robortender]);
+		if(equipped_item($slot[familiar]) != $item[toggle switch (Bartend)] && item_amount($item[toggle switch (Bartend)]) > 0)
+				equip($slot[familiar], $item[toggle switch (Bartend)]);
+		
+		if(equipped_item($slot[familiar]) != $item[toggle switch (Bounce)] && item_amount($item[toggle switch (Bounce)]) > 0)
+			equip($slot[familiar], $item[toggle switch (Bounce)]);
+		
+		if(equipped_item($slot[familiar]) == $item[toggle switch (Bounce)])
+			cli_execute("fold toggle switch (Bartend)");							
+
 		equip($item[The Jokester's gun]);
 
 		int fishhead_old = item_amount($item[fish head]);
@@ -35,12 +34,14 @@ int free_fight_deck_penguin()
 		
 		fishhead_gen = item_amount($item[fish head]) - fishhead_old;		
 		print("Generated " + fishhead_gen + " fish head", "blue");
+		
+		use_familiar(original_fam);
+		equip($slot[weapon], original_weapon);
 	}
-	return fishhead_gen;
 }
 
 /*Free fights at the snojo*/
-int free_fight_snojo()
+void free_fight_snojo()
 {
 	while(get_property("_snojoFreeFights").to_int() < 10)
 	{
@@ -48,11 +49,10 @@ int free_fight_snojo()
 		print("Fought in the snojo (" + get_property("_snojoFreeFights") + ")", "blue");
 	}
 	print("Fought " + get_property("_snojoFreeFights") + " at the snojo", "blue");
-	return 0;
 }
 
 /*Free Bricko fights*/
-int free_fight_bricko()
+void free_fight_bricko()
 {
 	while(get_property("_brickoFights").to_int() < 10)
 	{
@@ -61,11 +61,10 @@ int free_fight_bricko()
 		print("Fought a bricko ooze (" + get_property("_brickoFights") + ")", "blue");
 	}
 	print("Fought " + get_property("_brickoFights") + " bricko fights", "blue");
-	return 0;
 }
 
 /*Free Witchess Fights*/
-int free_fight_witchess()
+void free_fight_witchess()
 {
 	while(get_property("_witchessFights").to_int() < 5)
 	{
@@ -76,7 +75,6 @@ int free_fight_witchess()
 		print("Fought " + get_property("_witchessFights") + " witchess fights", "blue");
 	}
 	print("Fought " + get_property("_witchessFights") + " witchess fights", "blue");
-	return 0;
 }
 
 /*Free Eldritch Tent Fight*/
@@ -95,15 +93,12 @@ void free_fight_eldritch_tent()
 }
 
 /*Free Eldritch Skill Fight*/
-int free_fight_eldritch_skill()
+void free_fight_eldritch_skill()
 {
 	if(get_property("_eldritchHorrorEvoked").to_boolean())
 		print("Eldritch tenactle (skill) already fought", "blue");
 	else
-	{
 		use_skill($skill[Evoke Eldritch Horror]);
-	}
-	return 0;
 }
 
 /*Combat filter functions for deep machine fights*/
@@ -125,7 +120,7 @@ string abstractions(int round, monster opp, string text)
 }
 
 /*Free Deep Machine Tunnel Fights*/
-int free_fight_machine_tunnel()
+void free_fight_machine_tunnel()
 {
 	use_familiar($familiar[Machine Elf]);
 	while(get_property("_machineTunnelsAdv").to_int() < 5)
@@ -134,6 +129,5 @@ int free_fight_machine_tunnel()
 		print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
 	}
 	print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
-	return 0;
 }
 
