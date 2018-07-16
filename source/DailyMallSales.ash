@@ -21,7 +21,7 @@ void check_cheap_mall_item()
 				total_acq = total_acq + item_acq;
 		}until (item_acq == 0 || total_acq > 5);
 		if(total_acq > 0)
-			print("You acquired " + total_acq + " cheap " + key, "blue");
+			print("You mall-bought " + total_acq + " " + key, "blue");
 	}
 }
 

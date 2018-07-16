@@ -30,3 +30,6 @@ mojo filter	1000
 bacon	100
 extra-greasy slider	1000
 jar of fermented pickle juice	1000
+beer lens	1000
+single entendre	4000
+jumping horseradish	100 
