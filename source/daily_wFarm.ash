@@ -82,7 +82,8 @@ void meat_farm_prep()
 	get_dark_horse();
 	kbg_briefcase_buff();
 	check_OnTheTrail();
-	prime_robortender();
+	dress_robortender();
+	booze_robortender();
 }
 
 void free_fight_prep()
@@ -117,6 +118,7 @@ void main()
 			{	
 				/*
 				set_auto_attack(0);
+				check_cheap_mall_item();
 				daily_chores();
 
 				nom_noms("hi mein", true);							// Do this before free fights to get extra hunger space from pantsgiving
