@@ -81,7 +81,7 @@ void free_fight_witchess()
 void free_fight_eldritch_tent()
 {
 	if(get_property("_eldritchTentacleFought").to_boolean())
-		print("Eldritch tenactle (tent) already fought", "blue");
+		print("Eldritch tentacle (tent) already fought", "blue");
 	else
 	{
 		visit_url("place.php?whichplace=forestvillage&action=fv_scientist");
@@ -89,6 +89,7 @@ void free_fight_eldritch_tent()
 			run_choice(2);
 		else
 			run_choice(1);
+		print("Fought eldritch tentacle at the tent", "blue");
 	}
 }
 
@@ -96,9 +97,12 @@ void free_fight_eldritch_tent()
 void free_fight_eldritch_skill()
 {
 	if(get_property("_eldritchHorrorEvoked").to_boolean())
-		print("Eldritch tenactle (skill) already fought", "blue");
+		print("Eldritch tentacle (skill) already fought", "blue");
 	else
+	{
 		use_skill($skill[Evoke Eldritch Horror]);
+		print("Fought eldritch tentacle using the skill", "blue");
+	}
 }
 
 /*Combat filter functions for deep machine fights*/
