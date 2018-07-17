@@ -385,8 +385,28 @@ int generate_pocket_wishes()
 	}
 	return 0;
 }
+/* Generate BRICKO Eye Bricks */
+void generate_brickoEyeBricks()
+{
+	int brickoEye_old = item_amount($item[BRICKO eye brick]);
+	int brickoEye_gen = 0;
+	int max_casts = 15;
+	int casts = 0;
+	while(brickoEye_gen < 3 && casts < max_casts)
+	{
+		if(my_mp() < mp_cost($skill[Summon BRICKOs]))
+			minor_mp_restore();
+		else
+		{
+			use_skill(1, $skill[Summon BRICKOs]);
+			casts++;
+		}
+		brickoEye_gen = item_amount($item[BRICO eye brick]) - brickoEye_old;
+	}
+	print("Generated " + brickoEye_gen + " Bricko eye bricks with " + casts + " casts", "blue");
+}
 
-/*Cast Max Resolutions*/
+/* Cast Max Resolutions */
 int generate_resolutions(int mp_pct)
 {
 	int already_cast = get_property("libramSummons").to_int();
@@ -488,7 +508,6 @@ void generate_amulet_coin()
 		use(1, $item[Box of Familiar Jacks]);
 	}
 }
-
 
 /* Get KGB Briefcase buff */
 void kbg_briefcase_buff()
