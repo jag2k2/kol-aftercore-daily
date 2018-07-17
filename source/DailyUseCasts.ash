@@ -392,18 +392,24 @@ void generate_brickoEyeBricks()
 	int brickoEye_gen = 0;
 	int max_casts = 15;
 	int casts = 0;
-	while(brickoEye_gen < 3 && casts < max_casts)
-	{
-		if(my_mp() < mp_cost($skill[Summon BRICKOs]))
-			minor_mp_restore();
-		else
+	if(property_exists("_BrickoEyeBricksGenerated"))
+		print("Bricko eye bricks have already been generated", "blue");
+	else
+	{	
+		while(brickoEye_gen < 3 && casts < max_casts)
 		{
-			use_skill(1, $skill[Summon BRICKOs]);
-			casts++;
+			if(my_mp() < mp_cost($skill[Summon BRICKOs]))
+				minor_mp_restore();
+			else
+			{
+				use_skill(1, $skill[Summon BRICKOs]);
+				casts++;
+			}
+			brickoEye_gen = item_amount($item[BRICKO eye brick]) - brickoEye_old;
 		}
-		brickoEye_gen = item_amount($item[BRICO eye brick]) - brickoEye_old;
+		set_property("_BrickoEyeBricksGenerated", "true");
+		print("Generated " + brickoEye_gen + " Bricko eye bricks with " + casts + " casts", "blue");
 	}
-	print("Generated " + brickoEye_gen + " Bricko eye bricks with " + casts + " casts", "blue");
 }
 
 /* Cast Max Resolutions */
