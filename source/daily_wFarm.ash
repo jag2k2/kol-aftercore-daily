@@ -144,7 +144,7 @@ void main()
 				
 				outfit_manager("Max MP");
 				nun_multiRestore();
-				use_skill(10, $skill[Summon BRICKOs]);
+				generate_brickoEyeBricks();
 				generate_resolutions(100);
 				once_daily_meatBuffs();								// LOVE Tunnel restores all MP
 				generate_resolutions(100);
