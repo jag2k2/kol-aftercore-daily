@@ -4,6 +4,8 @@ import DailyUseCasts.ash
 import DailyFreeFights.ash
 import MeatFarmDinsey.ash
 import DailyNoms.ash
+import Outfit Manager.ash
+import DailyMallSales.ash
 
 string barf_caf (int round, monster opp, string text) 
 {
@@ -112,11 +114,21 @@ void main()
 	{
 		if(my_name()=="jag2k2")
 		{
+			if(!property_exists("_dailyDoneZed"))
+			{
+				set_property("_dailyDoneZed", "true");
+				cli_execute("login zeddemore");
+			}
+			if(!property_exists("_dailyDoneBoba"))
+			{
+				set_property("_dailyDoneBoba", "true");
+				cli_execute("login Boba the Fett");
+			}
+			
 			if(my_inebriety() > inebriety_limit())
 				print("jag2k2 is too drunk to adventure anymore", "blue");
 			else
 			{	
-				/*
 				set_auto_attack(0);
 				check_cheap_mall_item();
 				daily_chores();
@@ -190,19 +202,8 @@ void main()
 					cli_execute("mix cherry bomb");
 				if(have_effect($effect[Ode to Booze]) > 0)
 					cli_execute("uneffect Ode to Booze");
-				outfit_manager("PJs");     */	
-			}
-			
-			if(!property_exists("_dailyDoneZed"))
-			{
-				set_property("_dailyDoneZed", "true");
-				cli_execute("login zeddemore");
-			}
-			if(!property_exists("_dailyDoneBoba"))
-			{
-				set_property("_dailyDoneBoba", "true");
-				cli_execute("login Boba the Fett");
-			}
+				outfit_manager("PJs");	
+			}			
 		}
 		
 		if(my_name()=="zeddemore")
