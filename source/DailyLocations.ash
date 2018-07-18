@@ -210,8 +210,8 @@ boolean harvest_clan_pool()
 	return success;
 }
 
-/*Harvest Clan Fax Machine*/
-boolean harvest_clan_fax()
+/* Harvest Clan Fax Machine */
+void harvest_clan_fax()
 {
 	boolean success = false;
 	if (item_amount($item[photocopied monster]) == 0)
@@ -224,7 +224,15 @@ boolean harvest_clan_fax()
 	{
 		print("Already have a photocopied monster", "blue");
 	}
-	return success;
+}
+
+/* Soak in VIP hottub */
+void soak_hottub()
+{
+	if(get_property("_hotTubSoaks").to_int() >= 5)
+		print("Already soaked in hottub 5 times today", "blue");
+	else
+		cli_execute("hottub");
 }
 
 /*Harvest Dinsey Maintenance Tunnel*/
