@@ -67,9 +67,10 @@ void free_fight_bricko()
 	{
 		for x from 1 to (3 - get_property("_brickoFights").to_int())
 		{
-			create(1, $item[bricko oyster]);
+			if(item_amount($item[bricko oyster]) == 0)
+				create(1, $item[bricko oyster]);
 			use(1, $item[bricko oyster]);
-			print("Fought a bricko oyster (" + get_property("_brickoFights") + ")", "blue");
+			print("Fought " + get_property("_brickoFights") + " bricko monsters", "blue");
 		}
 	}
 }
