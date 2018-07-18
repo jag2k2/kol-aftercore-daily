@@ -1,3 +1,5 @@
+import DailyLocations.ash
+
 /*Daily Free Fights*/
 
 /*Fight the Penguin from Deck of Every Card*/
@@ -43,12 +45,17 @@ void free_fight_deck_penguin()
 /*Free fights at the snojo*/
 void free_fight_snojo()
 {
-	while(get_property("_snojoFreeFights").to_int() < 10)
+	if(get_property("_snojoFreeFights").to_int() >= 10)
+		print("Already fought at the snojo 10 times", "blue");
+	else
 	{
-		adv1($location[The X-32-F Combat Training Snowman], -1, "");
-		print("Fought in the snojo (" + get_property("_snojoFreeFights") + ")", "blue");
+		for x from 1 to (10 - get_property("_snojoFreeFights").to_int())
+		{
+			adv1($location[The X-32-F Combat Training Snowman], -1, "");
+			print("Fought in the snojo (" + get_property("_snojoFreeFights") + ")", "blue");
+		}
+	soak_hottub();
 	}
-	print("Fought " + get_property("_snojoFreeFights") + " at the snojo", "blue");
 }
 
 /*Free Bricko fights*/
