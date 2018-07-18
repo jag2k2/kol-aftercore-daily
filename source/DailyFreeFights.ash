@@ -9,7 +9,7 @@ void free_fight_deck_penguin()
 	int fishhead_gen = 0;
 	
 	if (get_property("_deckCardsSeen").contains_text(card_name))
-		print("Deck of Every Card has already cheated " + card_name + " today", "blue");
+		print("Already cheated " + card_name + " from Deck of Every Card today", "blue");
 	else if (get_property("_deckCardsDrawn").to_int() >= 15)
 		print("Deck of Every Card has been used 15 times already today", "blue");
 	else
@@ -61,34 +61,42 @@ void free_fight_snojo()
 /*Free Bricko fights*/
 void free_fight_bricko()
 {
-	while(get_property("_brickoFights").to_int() < 10)
+	if(get_property("_brickoFights").to_int() >= 3)
+		print("Already fought 3 bricko monsters today", "blue");
+	else
 	{
-		create(1, $item[bricko ooze]);
-		use(1, $item[bricko ooze]);
-		print("Fought a bricko ooze (" + get_property("_brickoFights") + ")", "blue");
+		for x from 1 to (3 - get_property("_brickoFights").to_int())
+		{
+			create(1, $item[bricko oyster]);
+			use(1, $item[bricko oyster]);
+			print("Fought a bricko oyster (" + get_property("_brickoFights") + ")", "blue");
+		}
 	}
-	print("Fought " + get_property("_brickoFights") + " bricko fights", "blue");
 }
 
 /*Free Witchess Fights*/
 void free_fight_witchess()
 {
-	while(get_property("_witchessFights").to_int() < 5)
+	if(get_property("_witchessFights").to_int() >= 5)
+		print("Already fought 5 witchess monsters today", "blue");
+	else
 	{
-		visit_url("campground.php?action=witchess");
-		run_choice(1);
-		visit_url("choice.php?option=1&pwd="+my_hash()+"&whichchoice=1182&piece=1936", false);
-		run_combat();
-		print("Fought " + get_property("_witchessFights") + " witchess fights", "blue");
+		for x from 1 to (5 - get_property("_witchessFights").to_int())
+		{
+			visit_url("campground.php?action=witchess");
+			run_choice(1);
+			visit_url("choice.php?option=1&pwd="+my_hash()+"&whichchoice=1182&piece=1936", false);
+			run_combat();
+			print("Fought " + get_property("_witchessFights") + " witchess fights", "blue");
+		}	
 	}
-	print("Fought " + get_property("_witchessFights") + " witchess fights", "blue");
 }
 
 /*Free Eldritch Tent Fight*/
 void free_fight_eldritch_tent()
 {
 	if(get_property("_eldritchTentacleFought").to_boolean())
-		print("Eldritch tentacle (tent) already fought", "blue");
+		print("Already fought eldritch tentacle (tent) today", "blue");
 	else
 	{
 		visit_url("place.php?whichplace=forestvillage&action=fv_scientist");
@@ -104,7 +112,7 @@ void free_fight_eldritch_tent()
 void free_fight_eldritch_skill()
 {
 	if(get_property("_eldritchHorrorEvoked").to_boolean())
-		print("Eldritch tentacle (skill) already fought", "blue");
+		print("Already fought eldritch tentacle (skill) today", "blue");
 	else
 	{
 		use_skill($skill[Evoke Eldritch Horror]);
@@ -126,7 +134,6 @@ string abstractions(int round, monster opp, string text)
 		else if(opp==$monster[Performer of Actions] && item_amount($item[abstraction: sensation])>0)
 			return "item abstraction: sensation";
 	}
-
 	return "skill saucestorm";
 }
 
@@ -134,11 +141,15 @@ string abstractions(int round, monster opp, string text)
 void free_fight_machine_tunnel()
 {
 	use_familiar($familiar[Machine Elf]);
-	while(get_property("_machineTunnelsAdv").to_int() < 5)
+	if(get_property("_machineTunnelsAdv").to_int() >= 5)
+		print("Already fought 5 machine tunnel monsters today", "blue");
+	else
 	{
-		adv1($location[The Deep Machine Tunnels], -1, "abstractions");
-		print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
+		for x from 1 to (5 - get_property("_machineTunnelsAdv").to_int())
+		{
+			adv1($location[The Deep Machine Tunnels], -1, "abstractions");
+			print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
+		}
 	}
-	print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
 }
 
