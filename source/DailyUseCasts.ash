@@ -622,3 +622,45 @@ void cast_ancestralRecalls()
 			use_skill(to_cast, $skill[ancestral recall]);
 	}
 }
+
+/* Get and use class-specific chocolates */
+
+void use_classChocolates()
+{
+	if(property_exists("_classChocolatesUsed"))
+		print("Class chocolates already used today", "blue");
+	else
+	{
+		int max_price = 8000;
+		int to_use = 2;
+		item class_choc = $item[none];
+		switch (my_class())
+		{
+			case $class[seal clubber]:
+				class_choc = $item[chocolate seal-clubbing club];
+				break;
+			case $class[turtle tamer]:
+				class_choc = $item[chocolate turtle totem];
+				break;
+			case $class[Pastamancer]:
+				class_choc = $item[chocolate pasta spoon];
+				break;
+			case $class[Sauceror]:
+				class_choc = $item[chocolate saucepan];
+				break;
+			case $class[Disco Bandit]:
+				class_choc = $item[chocolate disco ball];
+				break;
+			case $class[Accordion Thief]:
+				class_choc = $item[chocolate stolen accordion];
+				break;
+			default:
+				break;
+		}
+		int to_buy = to_use - item_amount(class_choc);
+		if(to_buy > 0)
+			for x from 1 to to_buy
+				cli_execute("mallbuy " + class_choc + " @ " + max_price);
+		use(to_use, class_choc);
+	}
+}
