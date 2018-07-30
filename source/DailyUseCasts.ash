@@ -603,3 +603,22 @@ void use_ChibiChat()
 		print("Unable to run ChibiChat", "blue");
 	}
 }
+
+/* Get and use daily Blue Mana */
+
+void cast_ancestralRecalls()
+{
+	if(get_property("_ancestralRecallCasts").to_int() >= 10)
+		print("10 Ancestral Recalls already performed today", "blue");
+	else
+	{
+		int max_price = 13500;
+		int to_cast = 10 - get_property("_ancestralRecallCasts").to_int();
+		int to_buy = to_cast - item_amount($item[blue mana]);
+		if(to_buy > 0)
+			for x from 1 to to_buy
+				cli_execute("mallbuy blue mana @ " + max_price);
+		if(to_cast > 0)
+			use_skill(to_cast, $skill[ancestral recall]);
+	}
+}
