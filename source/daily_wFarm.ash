@@ -6,6 +6,7 @@ import MeatFarmDinsey.ash
 import DailyNoms.ash
 import Outfit Manager.ash
 import DailyMallSales.ash
+import Meat Buff Manager.ash
 
 string barf_caf (int round, monster opp, string text) 
 {
@@ -66,6 +67,7 @@ void daily_chores()
 	harvest_clan_shower();
 	harvest_clan_pool();
 	harvest_clan_fax();
+	take_clan_consults();
 	visit_hippy_store();
 	check_plumber_arcade();
 	visit_precinct_headquarters();
@@ -143,9 +145,10 @@ void main()
 				nom_noms("perfect booze", true);
 				nom_noms("Ambitious Turkey", false);
 				nom_noms("1-size epic booze", false);
-				nom_noms("4-size spleen", true);
-				nom_noms("3-size spleen", false);
-
+				sweet_synthesis(15);
+				cast_ancestralRecalls();
+				use_classChocolates();
+				
 				meat_farm_prep();
 
 				outfit_manager("Min MP Cost");
@@ -155,9 +158,12 @@ void main()
 				meatFarm_base_potions(my_adventures());
 				
 				outfit_manager("Max MP");
-				nun_multiRestore();
-				generate_brickoEyeBricks();
+				nun_multiRestore();									// Use the nuns as much as makes sense
+				generate_brickoEyeBricks();							// Cast Bricko libram until you get 3 bricko eye bricks
 				generate_resolutions(100);
+				
+				use_mallMeatPotions();								// A list of buffs are defined in a text file and their use is determined by current profitability
+				use_recipeBasedMeatBuffs();							// Buffs like demon summon and papier-mache toothpicks where components might need to be bought
 				once_daily_meatBuffs();								// LOVE Tunnel restores all MP
 				generate_resolutions(100);
 				use_license();										// Get 5 adv and restore all MP
@@ -202,7 +208,7 @@ void main()
 					cli_execute("mix cherry bomb");
 				if(have_effect($effect[Ode to Booze]) > 0)
 					cli_execute("uneffect Ode to Booze");
-				outfit_manager("PJs");	
+				outfit_manager("PJs");
 			}			
 		}
 		
@@ -258,7 +264,7 @@ void main()
 			cli_execute("login jag2k2");
 		}
 		set_property("_dailyDone", "true");
-		cli_execute("exit");
+		//cli_execute("exit");
 	}	
 }
 
