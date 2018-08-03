@@ -574,3 +574,23 @@ void get_monorail_buff()
 	else
 		cli_execute("monorail buff");
 }
+
+/* Clan Fortune Teller Consults */
+void take_clan_consults()
+{
+	int consults_used = get_property("_clanFortuneConsultUses").to_int();
+	if(consults_used >= 3)
+		print("Clan consults already used today", "blue");
+	else
+		for x from 1 to (3 - consults_used)
+		{
+			cli_execute("fortune alterior motives");
+			waitq(30);
+			print("countdown: 60", "blue");
+			waitq(30);
+			print("countdown: 30", "blue");
+			waitq(20);
+			print("countdown: 10", "blue");
+			waitq(10);
+		}
+}
