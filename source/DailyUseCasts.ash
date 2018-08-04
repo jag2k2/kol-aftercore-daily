@@ -662,5 +662,6 @@ void use_classChocolates()
 			for x from 1 to to_buy
 				cli_execute("mallbuy " + class_choc + " @ " + max_price);
 		use(to_use, class_choc);
+		set_property("_classChocolatesUsed", "true");
 	}
 }
