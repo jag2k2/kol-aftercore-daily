@@ -73,28 +73,43 @@ void nun_multiRestore()
 		get_nun_massage();
 }
 
-/*Use Grogpagne*/
-boolean use_grogpagne()
+/* Use psychokinetic energy blob */
+
+boolean use_energyBlob()
 {
-	if((my_maxmp()-my_mp()) < 40)
+	if((my_maxmp()-my_mp()) < 30 || item_amount($item[psychokinetic energy blob]) == 0)
 	{
-		print("Your mp level is within 40mp of your max", "blue");
+		print("Cannot use psychokinetic energy blob", "blue");
 		return false;
 	}
 	else
 	{
-		retrieve_item(1, $item[grogpagne]);
+		use(1, $item[psychokinetic energy blob]);
+		return true;
+	}
+}
+
+/* Use Grogpagne */
+boolean use_grogpagne()
+{
+	if((my_maxmp()-my_mp()) < 40 || item_amount($item[grogpagne]) == 0)
+	{
+		print("Cannot use grogpagne", "blue");
+		return false;
+	}
+	else
+	{
 		use(1, $item[grogpagne]);
 		return true;
 	}
 }
 
 /*Use smaller sources of daily mp restore to bump available MP*/
-int minor_mp_restore()
+void minor_mp_restore()
 {
 	if(!rest_in_bed())
 		if(!use_oscus_soda())
 			if(!get_nun_massage())
-				use_grogpagne();
-	return 0;
+				if(!use_energyBlob())
+					use_grogpagne();
 }
