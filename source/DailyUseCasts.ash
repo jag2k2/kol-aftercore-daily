@@ -396,7 +396,7 @@ void generate_brickoEyeBricks()
 		print("Bricko eye bricks have already been generated", "blue");
 	else
 	{	
-		while(brickoEye_gen < 3 && casts < max_casts)
+		while(brickoEye_gen < 3 && get_property("libramSummons") < max_casts)
 		{
 			if(my_mp() < mp_cost($skill[Summon BRICKOs]))
 				minor_mp_restore();
@@ -408,7 +408,7 @@ void generate_brickoEyeBricks()
 			brickoEye_gen = item_amount($item[BRICKO eye brick]) - brickoEye_old;
 		}
 		set_property("_BrickoEyeBricksGenerated", "true");
-		print("Generated " + brickoEye_gen + " Bricko eye bricks with " + casts + " casts", "blue");
+		print("Generated " + brickoEye_gen + " Bricko eye bricks with " + casts + " casts.  Total libram summons: " + get_property("libramSummons"), "blue");
 	}
 }
 
