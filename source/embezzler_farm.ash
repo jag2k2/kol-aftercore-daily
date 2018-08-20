@@ -46,7 +46,12 @@ void main(int round, monster foe, string page)
 		print("Casting Meteor Shower!!", "blue");
 		use_skill(1, $skill[Meteor Shower]);
 	}
+
+	else if(have_skill($skill[Summer Siesta]))
+		use_skill($skill[Summer Siesta]);
 	
-	else
+	else if(my_class() == $class[Seal Clubber] && have_skill($skill[Furious Wallop]))
 		use_skill($skill[Furious Wallop]);
+	
+	attack();
 }
