@@ -27,7 +27,10 @@ void daily_chores()
 	generate_chroners();
 	generate_chester_candy();
 	cheat_deck_every_card("Island");
-	cheat_deck_every_card("Rope");
+	if(my_class() == $class[Seal Clubber])
+		cheat_deck_every_card("Rope");
+	else
+		cheat_deck_every_card("Ancestral Recall");
 	generate_bacon();
 	generate_kardashians();
 	generate_pocket_wishes();
