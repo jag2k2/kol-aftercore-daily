@@ -1,4 +1,4 @@
-import DailyLocations.ash
+import DailyUseCasts.ash
 import default_consult.ash
 
 /*Daily Free Fights*/
@@ -155,3 +155,23 @@ void free_fight_machine_tunnel()
 	}
 }
 
+void free_fight_prep()
+{
+	get_ballPit_buff();
+	get_telescope_buff();
+	get_monorail_buff();
+}
+
+void fight_freely()
+{
+	free_fight_deck_penguin();
+	free_fight_snojo();
+	free_fight_witchess();
+	free_fight_bricko();
+	free_fight_eldritch_tent();
+	free_fight_eldritch_skill();
+	use_familiar($familiar[Machine Elf]);
+	free_fight_machine_tunnel();
+	use_familiar($familiar[God Lobster]);
+	//free_fight_godLobster();
+}
