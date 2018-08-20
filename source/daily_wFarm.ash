@@ -82,11 +82,14 @@ void fight_freely()
 {
 	free_fight_deck_penguin();
 	free_fight_snojo();
-	free_fight_bricko();
 	free_fight_witchess();
+	free_fight_bricko();
 	free_fight_eldritch_tent();
 	free_fight_eldritch_skill();
-	//free_fight_machine_tunnel();
+	use_familiar($familiar[Machine Elf]);
+	free_fight_machine_tunnel();
+	use_familiar($familiar[God Lobster]);
+	//free_fight_godLobster();
 }
 
 void main()
