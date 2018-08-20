@@ -17,13 +17,12 @@ void main(int round, monster foe, string page)
 		visit_url("fight.php?action=skill&whichskill=7168");
 
 	
-	int digitizeUses = get_property("_sourceTerminalDigitizeUses").to_int();
-	if(digitizeUses >= 3)
+	if(get_property("_sourceTerminalDigitizeUses").to_int() >= 3)
 		print("Already used 3 digitizes today", "blue");													
-	else if (digitizeUses == 0 || get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= 5)
+	else if (get_property("_sourceTerminalDigitizeMonster") != "Knob Goblin Embezzler" || get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= 5)
 	{
-		use_skill(1,$skill[Digitize]);
 		print("Digitizing Embezzler!!", "blue");	
+		use_skill(1,$skill[Digitize]);
 	}
 
 	if(item_amount($item[Rain-Doh black box]) > 0 && get_property("_raindohCopiesMade").to_int() < 5)
