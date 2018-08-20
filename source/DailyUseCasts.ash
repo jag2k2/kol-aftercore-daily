@@ -569,6 +569,7 @@ void use_ChibiChat()
 		string chibi_html = visit_url("inv_use.php?pwd&whichitem=5908");				// Try to use ChibiBuddy(On)
 		if(contains_text(chibi_html, "ChibiBuddy"))										// If html contains text "ChibiBuddy" then chibi was on (item exists) and we can attempt a chibichat
 		{
+			int activate_index = chibi_html.index_of("value=\"turn on the ChibiBuddy")-100;
 			int chat_index = chibi_html.index_of("value=\"Have a ChibiChat")-35;		// Find index of chibichat choice
 			int leave_index = chibi_html.index_of("value=\"Put your ChibiBuddy")-35;	// Find index of chibichat 
 			if(chat_index > 0)
@@ -577,6 +578,12 @@ void use_ChibiChat()
 				run_choice(chibi_html.char_at(chat_index).to_int());
 				return true;
 			}
+			else if(activate_index > 0)
+			{
+				print("Found and activating Chibibuddy while it was already on?!?", "blue");
+				if(activate_index > 0)
+				run_choice(chibi_html.char_at(activate_index).to_int());
+			}		
 			else
 			{
 				print("Could not find chat choice.  Attempting to run leave choice", "blue");
