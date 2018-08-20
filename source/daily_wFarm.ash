@@ -8,28 +8,6 @@ import Outfit Manager.ash
 import DailyMallSales.ash
 import Meat Buff Manager.ash
 
-string barf_caf (int round, monster opp, string text) 
-{
-	if(opp == $monster[garbage tourist])
-	{
-		if(round == 1 && have_effect($effect[On the Trail]) < 1)
-			return "skill transcendent olfaction";
-		else if(round > 1 && have_effect($effect[On the Trail]) == 40)
-			round -= 1;
-	}
-	
-	if(opp == $monster[horrible tourist family])
-	{
-		if(get_property("_macrometeoriteUses").to_int() < 10 && have_skill($skill[Macrometeorite]))
-		{
-			print("Casting Macrometeorite on horrible tourist family!  They are horrible.", "blue");
-			return "skill Macrometeorite";
-		}
-	}
-	
-	return get_ccs_action(round);
-}
-
 void daily_chores()
 {
 	generate_reagents();
