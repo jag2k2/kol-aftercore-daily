@@ -116,9 +116,13 @@ void main()
 			else
 			{	
 				set_auto_attack(0);
-				check_cheap_mall_item();
+				/*check_cheap_mall_item();
 				daily_chores();
 
+				//sweet_synthesis(15);
+				//cast_ancestralRecalls();
+				//use_classChocolates();				
+				
 				nom_noms("hi mein", true);							// Do this before free fights to get extra hunger space from pantsgiving
 
 				free_fight_prep();
@@ -129,17 +133,15 @@ void main()
 				nom_noms("perfect booze", true);
 				nom_noms("Ambitious Turkey", false);
 				nom_noms("1-size epic booze", false);
-				sweet_synthesis(15);
-				cast_ancestralRecalls();
-				use_classChocolates();
 				
 				meat_farm_prep();
 
 				outfit_manager("Min MP Cost");
-				use_skill(1, $skill[Drescher's Annoying Noise]);
-				use_skill(1, $skill[Pride of the Puffin]);			// Bump up ML to make embezzlers last a few more rounds each
 				self_buff_meat_effects(my_adventures());
 				meatFarm_base_potions(my_adventures());
+				use_skill(1, $skill[Drescher's Annoying Noise]);	// Bump up ML to make embezzlers last a few more rounds each
+				use_skill(1, $skill[Pride of the Puffin]);			
+
 				
 				outfit_manager("Max MP");
 				nun_multiRestore();									// Use the nuns as much as makes sense
