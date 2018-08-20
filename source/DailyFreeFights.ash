@@ -1,4 +1,5 @@
 import DailyLocations.ash
+import default_consult.ash
 
 /*Daily Free Fights*/
 
@@ -126,22 +127,22 @@ string abstractions(int round, monster opp, string text)
 {
 	if (round == 1)
 	{
-		if(opp==$monster[Perceiver of Sensations] && item_amount($item[abstraction: thought])>0)
+		if(opp==$monster[Perceiver of Sensations] && item_amount($item[abstraction: thought]) > 0)
 			return "item abstraction: thought";
 		
-		else if(opp==$monster[Thinker of Thoughts] && item_amount($item[abstraction: action])>0)
+		else if(opp==$monster[Thinker of Thoughts] && item_amount($item[abstraction: action]) > 0)
 			return "item abstraction: action";
 
-		else if(opp==$monster[Performer of Actions] && item_amount($item[abstraction: sensation])>0)
+		else if(opp==$monster[Performer of Actions] && item_amount($item[abstraction: sensation]) > 0)
 			return "item abstraction: sensation";
 	}
-	return "skill saucestorm";
+	
+	return efficient_spell();
 }
 
 /*Free Deep Machine Tunnel Fights*/
 void free_fight_machine_tunnel()
 {
-	use_familiar($familiar[Machine Elf]);
 	if(get_property("_machineTunnelsAdv").to_int() >= 5)
 		print("Already fought 5 machine tunnel monsters today", "blue");
 	else
