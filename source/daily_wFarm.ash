@@ -8,58 +8,6 @@ import Outfit Manager.ash
 import DailyMallSales.ash
 import Meat Buff Manager.ash
 
-void daily_chores()
-{
-	generate_reagents();
-	generate_noodles();
-	generate_cocktail_ingredients();
-	generate_sugar_sheets();
-	generate_smithsness();
-	generate_clip_art("box of Familiar Jacks");
-	generate_perfect_ice_cubes();
-	generate_army_cards();
-	generate_confiscated_things();
-	generate_prismatic_wads();
-	generate_cold_one();
-	generate_spaghetti_breakfast();
-	generate_crimbo_candy();
-	generate_single_atom();
-	generate_chroners();
-	generate_chester_candy();
-	cheat_deck_every_card("Island");
-	if(my_class() == $class[Seal Clubber])
-		cheat_deck_every_card("Rope");
-	else
-		cheat_deck_every_card("Ancestral Recall");
-	generate_bacon();
-	generate_kardashians();
-	generate_pocket_wishes();
-	get_clovers();
-	harvest_Chateau_Juice_Bar();
-	harvest_tea_tree();
-	harvest_gene_tonics();
-	harvest_terminal_booze();
-	harvest_terminal_buffs();
-	harvest_garden();
-	harvest_clan_meat_tree();
-	harvest_mr_klaw();
-	harvest_floundry();
-	harvest_clan_mirror();
-	harvest_clan_shower();
-	harvest_clan_pool();
-	harvest_clan_fax();
-	take_clan_consults();
-	visit_hippy_store();
-	check_plumber_arcade();
-	visit_precinct_headquarters();
-	harvest_sea_jelly();
-	harvest_dinsey_maint_tunnel();
-	harvest_inferno_tower();
-	harvest_wlf_bunker();
-	harvest_velvet_gold_mine(5, false);
-	operate_control_panel();
-}
-	
 void meat_farm_prep()
 {	
 	generate_amulet_coin();
