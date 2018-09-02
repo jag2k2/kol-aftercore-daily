@@ -41,8 +41,8 @@ void main()
 				print("jag2k2 is too drunk to adventure anymore", "blue");
 			else
 			{	
-				set_auto_attack(0);
-				/*check_cheap_mall_item();
+				/*
+				check_cheap_mall_item();
 				daily_chores();
 
 				//sweet_synthesis(15);
