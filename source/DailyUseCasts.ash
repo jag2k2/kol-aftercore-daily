@@ -1258,9 +1258,7 @@ void take_clan_consults()
 		for x from 1 to (3 - consults_used)
 		{
 			cli_execute("fortune alterior motives");
-			waitq(30);
-			print("countdown: 60", "blue");
-			waitq(30);
+			waitq(15);
 			print("countdown: 30", "blue");
 			waitq(20);
 			print("countdown: 10", "blue");
