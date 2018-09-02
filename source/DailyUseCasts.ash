@@ -1255,6 +1255,14 @@ void take_clan_consults()
 	if(consults_used >= 3)
 		print("Clan consults already used today", "blue");
 	else
+	{
+		if(get_property("clanFortuneWord1") != "pizza")
+			set_property("clanFortuneWord1", "pizza");
+		if(get_property("clanFortuneWord2") != "robin")
+			set_property("clanFortuneWord2", "robin");
+		if(get_property("clanFortuneWord3") != "thick")
+			set_property("clanFortuneWord3", "thick");
+
 		for x from 1 to (3 - consults_used)
 		{
 			cli_execute("fortune alterior motives");
@@ -1264,6 +1272,7 @@ void take_clan_consults()
 			print("countdown: 10", "blue");
 			waitq(10);
 		}
+	}
 }
 
 /* Aggregated daily chores function */
