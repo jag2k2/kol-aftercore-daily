@@ -157,6 +157,8 @@ void free_fight_machine_tunnel()
 
 void free_fight_prep()
 {
+	cli_execute("ccs default");
+	set_auto_attack(0);
 	get_ballPit_buff();
 	get_telescope_buff();
 	get_monorail_buff();
