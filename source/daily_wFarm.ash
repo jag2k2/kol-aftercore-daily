@@ -7,17 +7,6 @@ import Outfit Manager.ash
 import DailyMallSales.ash
 import Meat Buff Manager.ash
 
-void meat_farm_prep()
-{	
-	generate_amulet_coin();
-	meatFarm_create_copiers();
-	get_dark_horse();
-	kbg_briefcase_buff();
-	check_OnTheTrail();
-	dress_robortender();
-	booze_robortender();
-}
-
 void main()
 {
 	if(property_exists("_dailyDone"))
