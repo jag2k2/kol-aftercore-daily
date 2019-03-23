@@ -505,7 +505,7 @@ int meat_farm_cast_buffs(int target)
 /* Get the Amulet Coin */
 void generate_amulet_coin()
 {
-	if(item_amount($item[amulet coin]) > 0)
+	if(item_amount($item[amulet coin]) > 0 || equipped_item($slot[familiar]) == $item[amulet coin])
 		print("Already generated amulet coin today", "blue");
 	else
 	{
