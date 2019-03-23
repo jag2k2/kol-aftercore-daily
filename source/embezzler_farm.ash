@@ -19,7 +19,7 @@ void main(int round, monster foe, string page)
 	
 	if(get_property("_sourceTerminalDigitizeUses").to_int() >= 3)
 		print("Already used 3 digitizes today", "blue");													
-	else if (get_property("_sourceTerminalDigitizeMonster") != "Knob Goblin Embezzler" || get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= 5)
+	else if (get_property("_sourceTerminalDigitizeMonster") != "Knob Goblin Embezzler" || get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= get_property("_bm_digFreq").to_int())
 	{
 		print("Digitizing Embezzler!!", "blue");	
 		use_skill(1,$skill[Digitize]);
