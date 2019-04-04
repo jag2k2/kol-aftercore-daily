@@ -46,7 +46,7 @@ void main()
 				nom_noms("jumping horseradish", false);	
 				nom_noms("Ambitious Turkey", false);
 				nom_noms("perfect booze", true);
-				nom_noms("1-size epic booze", false);
+				nom_noms("1-size epic booze", true);
 				nom_noms("4-size spleen", true);
 				nom_noms("3-size spleen", false);
 				
@@ -79,7 +79,7 @@ void main()
 				int num_adv = my_adventures();
 
 				farm_barf_mountain(num_adv);
-					
+	
 				if(have_effect($effect[Fat Leon's Phat Loot Lyric]) > 0)
 					cli_execute("uneffect Fat Leon's Phat Loot Lyric");
 				if(have_effect($effect[Ode to Booze]) < 10)
