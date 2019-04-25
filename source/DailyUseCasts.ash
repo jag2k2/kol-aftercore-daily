@@ -112,6 +112,22 @@ int generate_clip_art(string clip_string)
 	return 0;
 }
 
+/* Summon Stickers */
+int generate_stickers()
+{
+	int max_summons_per_day = 3;
+	int summons_used = get_property("_stickerSummons").to_int();	
+	if (summons_used >= max_summons_per_day)
+		print("Sticker summons already used", "blue");
+	else
+	{
+		int to_summon = max_summons_per_day - summons_used;
+		use_skill(to_summon, $skill[Summon Stickers]);
+		print("Stickers summoned", "blue");
+	}
+	return 0;
+}
+
 /*Cast Perfect Freeze*/
 int generate_perfect_ice_cubes()
 {
@@ -791,6 +807,11 @@ int harvest_garden()
 		cli_execute("garden pick");
 		print("Thanksgiving garden harvested megacopia", "blue");
 	}
+	else if (camp_stuff contains $item[ice harvest])
+	{
+		cli_execute("garden pick");
+		print("Winter garden harvested", "blue");
+	}
 	else
 	{
 		print("Current garden not implemented by the script.", "blue");
@@ -1284,6 +1305,7 @@ void daily_chores()
 	generate_cocktail_ingredients();
 	generate_sugar_sheets();
 	generate_smithsness();
+	generate_stickers();
 	generate_clip_art("box of Familiar Jacks");
 	generate_perfect_ice_cubes();
 	generate_army_cards();
