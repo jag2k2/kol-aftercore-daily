@@ -1,4 +1,4 @@
-/*Check for min-priced item*/
+//Check for min-priced item
 
 void check_cheap_mall_item()
 {
@@ -25,3 +25,18 @@ void check_cheap_mall_item()
 	}
 }
 
+//Daily Mall Sells
+
+void daily_put_into_mall()
+{
+	int [item] to_sell_list;
+	file_to_map("/kol-aftercore-daily/data/Daily_MallSell.txt", to_sell_list);
+	print(count(to_sell_list));	
+	
+	foreach key in to_sell_list
+	{
+		int item_amt = item_amount(key);
+		print("Placing " + to_string(item_amt) + " " + key + " in mall.", "blue");
+		cli_execute("mallsell " + to_string(item_amt) + " " + key);
+	}
+}
