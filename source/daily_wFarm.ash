@@ -32,7 +32,7 @@ void main()
 			{	
 				check_cheap_mall_item();
 				daily_chores();
-
+				
 				//sweet_synthesis(15);
 				//cast_ancestralRecalls();
 				//use_classChocolates();				
@@ -94,6 +94,7 @@ void main()
 				if(have_effect($effect[Ode to Booze]) > 0)
 					cli_execute("uneffect Ode to Booze");
 				outfit_manager("PJs");
+				daily_put_into_mall();
 			}			
 		}
 		
