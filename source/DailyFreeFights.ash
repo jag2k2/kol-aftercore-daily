@@ -46,11 +46,12 @@ void free_fight_deck_penguin()
 /*Free fights at the snojo*/
 void free_fight_snojo()
 {
-	if(get_property("_snojoFreeFights").to_int() >= 10)
+	int fights_avail = 10 - get_property("_snojoFreeFights").to_int();
+	if(fights_avail <= 0)
 		print("Already fought at the snojo 10 times", "blue");
 	else
 	{
-		for x from 1 to (10 - get_property("_snojoFreeFights").to_int())
+		for x from 1 to fights_avail
 		{
 			adv1($location[The X-32-F Combat Training Snowman], -1, "");
 			print("Fought in the snojo (" + get_property("_snojoFreeFights") + ")", "blue");
@@ -62,11 +63,12 @@ void free_fight_snojo()
 /*Free Bricko fights*/
 void free_fight_bricko()
 {
-	if(get_property("_brickoFights").to_int() >= 3)
+	int fights_avail = 3 - get_property("_brickoFights").to_int();
+	if(fights_avail <= 0)
 		print("Already fought 3 bricko monsters today", "blue");
 	else
 	{
-		for x from 1 to (3 - get_property("_brickoFights").to_int())
+		for x from 1 to fights_avail
 		{
 			if(item_amount($item[bricko oyster]) == 0)
 				create(1, $item[bricko oyster]);
@@ -79,11 +81,12 @@ void free_fight_bricko()
 /*Free Witchess Fights*/
 void free_fight_witchess()
 {
-	if(get_property("_witchessFights").to_int() >= 5)
+	int fights_avail = 5 - get_property("_witchessFights").to_int();
+	if(fights_avail <= 0)
 		print("Already fought 5 witchess monsters today", "blue");
 	else
 	{
-		for x from 1 to (5 - get_property("_witchessFights").to_int())
+		for x from 1 to fights_avail
 		{
 			visit_url("campground.php?action=witchess");
 			run_choice(1);
@@ -140,19 +143,91 @@ string abstractions(int round, monster opp, string text)
 	return efficient_spell();
 }
 
-/*Free Deep Machine Tunnel Fights*/
+//Free Deep Machine Tunnel Fights
 void free_fight_machine_tunnel()
 {
-	if(get_property("_machineTunnelsAdv").to_int() >= 5)
+	int fights_avail = 5 - get_property("_machineTunnelsAdv").to_int();
+	
+	if(fights_avail <= 0)
 		print("Already fought 5 machine tunnel monsters today", "blue");
 	else
 	{
-		for x from 1 to (5 - get_property("_machineTunnelsAdv").to_int())
+		for x from 1 to fights_avail
 		{
 			adv1($location[The Deep Machine Tunnels], -1, "abstractions");
 			print("Fought " + get_property("_machineTunnelsAdv") + " machine tunnel fights", "blue");
 		}
 	}
+}
+
+//Free God Lobster Fights
+void free_fight_godLobster()
+{
+	static item GOD_LOBSTER_SCEPTER = $item[ God Lobster's Scepter ];
+	static item GOD_LOBSTER_RING = $item[ God Lobster's Ring ];
+	static item GOD_LOBSTER_ROD = $item[ God Lobster's Rod ];
+	static item GOD_LOBSTER_ROBE = $item[ God Lobster's Robe ];
+	static item GOD_LOBSTER_CROWN = $item[ God Lobster's Crown ];
+	static item NO_ITEM = $item[ none ];
+
+	int fights_avail = 3 - get_property( "_godLonsterFights" ).to_int();
+	if ( fights_avail <= 0 ) 
+	{
+		print("God Lobster already fought today", "blue");
+		return;
+	}
+
+	// First goal is to acquire all the pieces of regaila.  Once you have them all, equip the crown and choose "experience", which
+	// will also give you a dish of clarified butter
+
+	for x from 1 to fights_avail 
+	{
+	//Choose which item to equip
+	int scepters = available_amount( GOD_LOBSTER_SCEPTER );
+	int rings = available_amount( GOD_LOBSTER_RING );
+	int rods = available_amount( GOD_LOBSTER_ROD );
+	int robes = available_amount( GOD_LOBSTER_ROBE );
+	int crowns = available_amount( GOD_LOBSTER_CROWN );
+	item familiar_item =
+		( crowns > 0 ) ? GOD_LOBSTER_CROWN :
+	    ( robes > 0 ) ? GOD_LOBSTER_ROBE :
+	    ( rods > 0 ) ? GOD_LOBSTER_ROD :
+	    ( rings > 0 ) ? GOD_LOBSTER_RING :
+	    ( scepters > 0 ) ? GOD_LOBSTER_SCEPTER :
+	    NO_ITEM;
+    
+	// If unspecified, use whatever the familiar is already wearing
+	if ( familiar_item != NO_ITEM ) {
+	    equip( familiar_item );
+	}
+
+	//between_battle_checks();
+	string page = visit_url( "main.php?fightgodlobster=1" );
+	if ( !page.contains_text( "fight.php" ) ) 
+	{
+	    print("Unexpected text on God Lobster fight page", "blue");
+	    break;
+	}
+
+	//combat_filter_setup( NO_LOCATION );
+	page = run_combat();
+
+	if ( !page.contains_text( "choice.php" ) )
+	    print("Unexpected text.  Perhaps you lost the fight?", "red");
+
+	page = visit_url( "choice.php" );
+
+	// Options 1, 2, or 3 - unless you are wearing the crown, in
+	// which case the "regalia" option is not available and the
+	// others are 1 and 2. We'll go for "experience"
+	// 
+	// "I'd like part of your regalia."
+	// "I'd like a blessing."
+	// "I'd like some experience."
+
+	int option = ( familiar_item == GOD_LOBSTER_CROWN ) ? 2 : 1;
+	run_choice( option );
+    }
 }
 
 void free_fight_prep()
@@ -175,5 +250,7 @@ void fight_freely()
 	use_familiar($familiar[Machine Elf]);
 	free_fight_machine_tunnel();
 	use_familiar($familiar[God Lobster]);
-	//free_fight_godLobster();
+	free_fight_godLobster();
+	//free_fight_neverendingparty();
 }
+
