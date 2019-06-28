@@ -819,6 +819,19 @@ int harvest_garden()
 	return 0;
 }
 
+/*Harvest Boxing Daycare*/
+void harvest_daycare()
+{
+	boolean harvested = get_property("_daycareNap").to_boolean();
+	if(harvested)
+		print("Boxing Daycare already harvested", "blue");
+	else
+	{
+		visit_url("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare");
+		run_choice(1);
+	}
+}
+
 /*Harvest Rumpus Meat Tree*/
 int harvest_clan_meat_tree()
 {
@@ -1327,6 +1340,7 @@ void daily_chores()
 	generate_pocket_wishes();
 	get_clovers();
 	harvest_Chateau_Juice_Bar();
+	harvest_daycare();
 	harvest_tea_tree();
 	harvest_gene_tonics();
 	harvest_terminal_booze();
