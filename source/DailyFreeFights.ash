@@ -163,13 +163,6 @@ void free_fight_machine_tunnel()
 //Free God Lobster Fights
 void free_fight_godLobster()
 {
-	static item GOD_LOBSTER_SCEPTER = $item[ God Lobster's Scepter ];
-	static item GOD_LOBSTER_RING = $item[ God Lobster's Ring ];
-	static item GOD_LOBSTER_ROD = $item[ God Lobster's Rod ];
-	static item GOD_LOBSTER_ROBE = $item[ God Lobster's Robe ];
-	static item GOD_LOBSTER_CROWN = $item[ God Lobster's Crown ];
-	static item NO_ITEM = $item[ none ];
-
 	int fights_avail = 3 - get_property( "_godLonsterFights" ).to_int();
 	if ( fights_avail <= 0 ) 
 	{
@@ -177,57 +170,84 @@ void free_fight_godLobster()
 		return;
 	}
 
-	// First goal is to acquire all the pieces of regaila.  Once you have them all, equip the crown and choose "experience", which
-	// will also give you a dish of clarified butter
+	equip($item[Mayflower bouquet]);
 
 	for x from 1 to fights_avail 
 	{
-	//Choose which item to equip
-	int scepters = available_amount( GOD_LOBSTER_SCEPTER );
-	int rings = available_amount( GOD_LOBSTER_RING );
-	int rods = available_amount( GOD_LOBSTER_ROD );
-	int robes = available_amount( GOD_LOBSTER_ROBE );
-	int crowns = available_amount( GOD_LOBSTER_CROWN );
-	item familiar_item =
-		( crowns > 0 ) ? GOD_LOBSTER_CROWN :
-	    ( robes > 0 ) ? GOD_LOBSTER_ROBE :
-	    ( rods > 0 ) ? GOD_LOBSTER_ROD :
-	    ( rings > 0 ) ? GOD_LOBSTER_RING :
-	    ( scepters > 0 ) ? GOD_LOBSTER_SCEPTER :
-	    NO_ITEM;
-    
-	// If unspecified, use whatever the familiar is already wearing
-	if ( familiar_item != NO_ITEM ) {
-	    equip( familiar_item );
-	}
+		string page = visit_url("main.php?fightgodlobster=1");
+		if (!page.contains_text("fight.php")) 
+		{
+			print("Unexpected text on God Lobster fight page", "blue");
+			break;
+		}
 
-	//between_battle_checks();
-	string page = visit_url( "main.php?fightgodlobster=1" );
-	if ( !page.contains_text( "fight.php" ) ) 
-	{
-	    print("Unexpected text on God Lobster fight page", "blue");
-	    break;
-	}
+		page = run_combat();
 
-	//combat_filter_setup( NO_LOCATION );
-	page = run_combat();
+		if (!page.contains_text("choice.php"))
+			print("Unexpected text.  Perhaps you lost the fight?", "red");
 
-	if ( !page.contains_text( "choice.php" ) )
-	    print("Unexpected text.  Perhaps you lost the fight?", "red");
+		page = visit_url("choice.php");
 
-	page = visit_url( "choice.php" );
-
-	// Options 1, 2, or 3 - unless you are wearing the crown, in
-	// which case the "regalia" option is not available and the
-	// others are 1 and 2. We'll go for "experience"
-	// 
-	// "I'd like part of your regalia."
-	// "I'd like a blessing."
-	// "I'd like some experience."
-
-	int option = ( familiar_item == GOD_LOBSTER_CROWN ) ? 2 : 1;
-	run_choice( option );
+		// Options 1, 2, or 3 - unless you are wearing the crown, in
+		// which case the "regalia" option is not available and the
+		// others are 1 and 2. We'll go for "experience"
+		// 
+		// "I'd like part of your regalia."
+		// "I'd like a blessing."
+		// "I'd like some experience."
+	
+		run_choice(3);
     }
+}
+
+// Free Neverending Party Fights
+void free_fight_neverendingparty()
+{
+    int fights_avail = 10 - get_property( "_neverendingPartyFreeTurns" ).to_int();
+    if ( fights_avail <= 0 )
+	{
+		print("Already fought at NEP today", "blue");
+		return;
+	}
+	
+	while ((10 - get_property( "_neverendingPartyFreeTurns" ).to_int()) > 0) 
+	{
+		string page = visit_url($location[The Neverending Party].to_url());
+		if ( page.contains_text("fight.php")) 
+			run_combat();
+
+		else if ( last_choice() == 1322 ) 
+		{
+			// The Beginning of the Neverend
+			//
+			// Choice 1 = accept quest
+			// Choice 2 = reject quest
+			// Choice 3 (?( come back later
+			//
+			// This script wants 10 free fights and nothing more.
+			// Quests require non-free turns. Therefore, reject quest
+			// This choice does not consume a turn
+			run_choice( 2 );
+		}
+		
+		else if (last_choice() == 1324) 
+		{
+			// It Hasn't Ended, It's Just Paused
+			//
+			// Choice 1 = Head upstairs
+			// Choice 2 = Check out the kitchen
+			// Choice 3 = Go to the back yard
+			// Choice 4 = Investigate the basement
+			// Choice 5 = Pick a fight.
+			//
+			// The first 4 are only for progressing quests
+
+			run_choice( 5 );
+			run_combat();
+		}
+		else					// Turtle taming or ghost dog?
+			run_choice( -1 );
+	}
 }
 
 void free_fight_prep()
@@ -251,6 +271,7 @@ void fight_freely()
 	free_fight_machine_tunnel();
 	use_familiar($familiar[God Lobster]);
 	free_fight_godLobster();
-	//free_fight_neverendingparty();
+	use_familiar($familiar[Fist Turkey]);
+	free_fight_neverendingparty();
 }
 
