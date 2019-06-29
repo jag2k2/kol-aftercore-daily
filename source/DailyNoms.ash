@@ -139,6 +139,23 @@ void nom_noms(string menu, boolean fill_up)
 				print("Using milk of magnesium", "blue");
 				use(1, $item[milk of magnesium]);
 			}
+			
+			if(my_class() == $class[turtle tamer] && organ_room(nom_type) >= 10)
+			{
+				boolean prayed = get_property("_barrelPrayer").to_boolean();
+				if(prayed)
+					print("Already prayed to the Barrel God", "blue");
+				else
+				{
+					print("Attempting to get the food barrel buff", "blue");
+					string page = visit_url("da.php?barrelshrine=1");
+					int choice_index = page.index_of("value=Happiness")-54;
+					if(choice_index < 0)
+						print("Cannot find Barrel prayer buff", "blue");
+					else
+						run_choice(page.char_at(choice_index).to_int());
+				}
+			}
 		}
 		
 		else if(nom_type == "booze")
